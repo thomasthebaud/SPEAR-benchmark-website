@@ -3,7 +3,7 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 source config.sh
-source openai_keys.sh
+source keys.sh
 source cmd.sh
 
 echo "Running inference with model $llm_model on seamless interactions"

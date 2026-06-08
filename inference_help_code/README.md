@@ -8,21 +8,17 @@ Create the conda environment from the provided file:
 
 ```bash
 conda env create -f environment.yml
-conda activate spearbench-inference
+conda activate spearbench
 ```
 
 If you use a different environment name, adjust the activation command accordingly. The scripts assume they are run from this `inference_help_code/` directory.
 
-The inference script also sources `openai_keys.sh`. For OpenAI-based examples, create that file locally:
+The inference script also sources `keys.sh`. For OpenAI-based examples, fill that file locally with the desired keys:
 
 ```bash
-cat > openai_keys.sh <<'EOF'
 openai_api_key="YOUR_OPENAI_API_KEY"
 org="YOUR_OPENAI_ORG_OR_EMPTY_STRING"
-EOF
 ```
-
-Do not commit `openai_keys.sh` or any API keys.
 
 ## 2. Prepare the Input Data
 
