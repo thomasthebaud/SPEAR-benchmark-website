@@ -56,13 +56,7 @@ For example, to evaluate `my_model_name`, use:
 protocol="seamless_2t_2s_questions"
 data_dir="data/$protocol"
 
-eval_models=("my_model_name")
-```
-
-You can list multiple models if you have one proxy per model:
-
-```bash
-eval_models=("my_model_name" "another_model")
+llm_model="my_model_name"
 ```
 
 ## 4. Add a Model Proxy
@@ -101,6 +95,14 @@ The script runs over both `dev` and `test`, and over the `improvised` and `natur
 ```text
 data/seamless_2t_2s_questions/outputs/my_model_name/
 ```
+
+Current script use a slurm type command requesting one gpu:
+
+```bash
+srun -p gpu --gpus 1 python bin/run_LLM_inference.py
+```
+
+Feel free to change it if needed.
 
 ## 6. Submit Outputs
 

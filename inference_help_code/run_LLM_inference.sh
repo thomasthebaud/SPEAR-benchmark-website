@@ -16,21 +16,19 @@ prompt="You are participating in a natural spoken conversation.\
 
 for split in 'test' 'dev'; do
     for subset in 'improvised' 'naturalistic'; do
-        for llm_model in "${eval_models[@]}"; do
-            echo "on split $split and subset $subset"
-            $(python_cmd 'SB02' --gpu) bin/run_LLM_inference.py \
-                --audio_dir $data_dir/inputs \
-                --output_dir $data_dir/outputs/$llm_model \
-                --model $llm_model \
-                --prompt "$prompt" \
-                --split $split \
-                --subset $subset \
-                --openai-api-key "$openai_api_key" \
-                --org "$org" \
-                --stop-on-fail &
+        echo "on split $split and subset $subset"
+        srun -p gpu --gpus 1 python bin/run_LLM_inference.py \
+            --audio_dir $data_dir/inputs \
+            --output_dir $data_dir/outputs/$llm_model \
+            --model $llm_model \
+            --prompt "$prompt" \
+            --split $split \
+            --subset $subset \
+            --openai-api-key "$openai_api_key" \
+            --org "$org" \
+            --stop-on-fail &
 
-            sleep 1
-        done
+        sleep 1
     done
 done
 
