@@ -17,7 +17,7 @@
         </span>
       </a>
       <nav class="tabs" aria-label="Primary navigation">
-        <a class="tab-link" href="#welcome" data-tab-link="welcome">Welcome</a>
+        <a class="tab-link active" href="#welcome" data-tab-link="welcome">Welcome</a>
         <a class="tab-link" href="#benchmark" data-tab-link="benchmark">Benchmark</a>
         <a class="tab-link" href="#add-model" data-tab-link="add-model">Add Your Model</a>
         <a class="tab-link" href="#contact" data-tab-link="contact">Contact Us</a>
@@ -25,7 +25,7 @@
     </header>
 
     <main>
-      <section class="tab-panel hero-panel" id="welcome" data-tab-panel="welcome">
+      <section class="tab-panel hero-panel active" id="welcome" data-tab-panel="welcome">
         <div class="hero-copy">
           <p class="eyebrow">SPEARBench</p>
           <h1>Benchmarking speech agents where conversation gets real.</h1>
@@ -35,14 +35,14 @@
             speech features.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="https://github.com/tthebaud/SPEARBench" target="_blank" rel="noreferrer">SPEARBench GitHub</a>
+            <a class="button primary" href="#" aria-disabled="true">SPEARBench GitHub</a>
             <a class="button" href="#benchmark">View Benchmark</a>
           </div>
         </div>
         <img class="hero-image" src="assets/spear-benchmark-banner.png" alt="Abstract audio waveforms, spectrogram texture, and evaluation grid for speech AI benchmarking.">
       </section>
 
-      <section class="tab-panel" data-tab-panel="welcome">
+      <section class="tab-panel active" data-tab-panel="welcome">
         <div class="section-heading">
           <h2>What Is Here</h2>
           <p>Use the tabs to move between project context, the leaderboard, submission instructions, and contact.</p>
@@ -63,7 +63,7 @@
         </div>
       </section>
 
-      <section class="tab-panel" data-tab-panel="welcome">
+      <section class="tab-panel active" data-tab-panel="welcome">
         <div class="section-heading">
           <h2>Related Articles</h2>
           <p>Replace the placeholder URLs below with the final publication links as they become available.</p>
@@ -98,11 +98,145 @@
         </div>
         <div class="table-wrap" role="region" aria-label="SPEAR Benchmark table" tabindex="0">
           <table id="benchmark-table">
-            <thead></thead>
-            <tbody></tbody>
+            <thead>
+              <tr>
+                <th>Protocol</th>
+                <th>Model</th>
+                <th>Avg Latency</th>
+                <th>Avg UTMOS</th>
+                <th>Avg WER %</th>
+                <th>WER Std</th>
+                <th>Interruptions / Dialogue</th>
+                <th>Dialogues Interrupted</th>
+                <th>Interrupted Time s</th>
+                <th>EN Lang %</th>
+                <th>2nd Language</th>
+                <th>2nd Lang %</th>
+                <th>Same Dialect %</th>
+                <th>NA Dialect %</th>
+                <th>Emo Naturalness</th>
+                <th>Same Stance %</th>
+                <th>More Negative %</th>
+                <th>More Positive %</th>
+                <th>Explainable Feature</th>
+                <th>Report</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>seamless_2t_2s_questions</td>
+                <td class="model-cell">gpt-audio-1.5</td>
+                <td class="numeric">130.9 ms</td>
+                <td class="numeric">4.362</td>
+                <td class="numeric">5.796</td>
+                <td class="numeric">0.431</td>
+                <td class="numeric">0.000</td>
+                <td>0/3036</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">100.000</td>
+                <td></td>
+                <td></td>
+                <td class="numeric">74.633</td>
+                <td class="numeric">97.379</td>
+                <td class="numeric">10.908</td>
+                <td class="numeric">95.122</td>
+                <td class="numeric">2.439</td>
+                <td class="numeric">2.962</td>
+                <td class="numeric">-1.257</td>
+                <td><a class="report-link" href="reports/gpt-audio-1.5/detailed_report.html">Detailed report</a></td>
+              </tr>
+              <tr>
+                <td>seamless_2t_2s_questions</td>
+                <td class="model-cell">gpt-realtime-2</td>
+                <td class="numeric">103.9 ms</td>
+                <td class="numeric">4.275</td>
+                <td class="numeric">14.910</td>
+                <td class="numeric">0.573</td>
+                <td class="numeric">0.447</td>
+                <td>714/3028</td>
+                <td class="numeric">0.431</td>
+                <td class="numeric">100.000</td>
+                <td></td>
+                <td></td>
+                <td class="numeric">75.133</td>
+                <td class="numeric">98.027</td>
+                <td class="numeric">10.893</td>
+                <td class="numeric">94.889</td>
+                <td class="numeric">3.066</td>
+                <td class="numeric">2.385</td>
+                <td class="numeric">-0.622</td>
+                <td><a class="report-link" href="reports/gpt-realtime-2/detailed_report.html">Detailed report</a></td>
+              </tr>
+              <tr>
+                <td>seamless_2t_2s_questions</td>
+                <td class="model-cell">original</td>
+                <td class="numeric">742.1 ms</td>
+                <td class="numeric">2.222</td>
+                <td class="numeric">40.649</td>
+                <td class="numeric">5.449</td>
+                <td class="numeric">0.520</td>
+                <td>922/2725</td>
+                <td class="numeric">0.521</td>
+                <td class="numeric">99.272</td>
+                <td>dan</td>
+                <td class="numeric">0.221</td>
+                <td class="numeric">74.124</td>
+                <td class="numeric">76.641</td>
+                <td class="numeric">10.909</td>
+                <td class="numeric">100.000</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">-0.670</td>
+                <td><span class="no-report">No report</span></td>
+              </tr>
+              <tr>
+                <td>seamless_2t_2s_questions</td>
+                <td class="model-cell">Qwen2.5-Omni-7B</td>
+                <td class="numeric">277.4 ms</td>
+                <td class="numeric">4.192</td>
+                <td class="numeric">19.370</td>
+                <td class="numeric">1.772</td>
+                <td class="numeric">0.000</td>
+                <td>0/3039</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">98.899</td>
+                <td>jav</td>
+                <td class="numeric">0.356</td>
+                <td class="numeric">52.144</td>
+                <td class="numeric">65.565</td>
+                <td class="numeric">10.195</td>
+                <td class="numeric">96.567</td>
+                <td class="numeric">2.146</td>
+                <td class="numeric">1.717</td>
+                <td class="numeric">1.040</td>
+                <td><a class="report-link" href="reports/Qwen2.5-Omni-7B/detailed_report.html">Detailed report</a></td>
+              </tr>
+              <tr>
+                <td>seamless_2t_2s_questions</td>
+                <td class="model-cell">Qwen3-Omni-30B-A3B-Instruct</td>
+                <td class="numeric">27.2 ms</td>
+                <td class="numeric">4.338</td>
+                <td class="numeric">7.923</td>
+                <td class="numeric">1.166</td>
+                <td class="numeric">0.000</td>
+                <td>0/3039</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">98.140</td>
+                <td>Chinese</td>
+                <td class="numeric">0.710</td>
+                <td class="numeric">69.504</td>
+                <td class="numeric">89.593</td>
+                <td class="numeric">10.906</td>
+                <td class="numeric">96.610</td>
+                <td class="numeric">1.695</td>
+                <td class="numeric">2.684</td>
+                <td class="numeric">-0.134</td>
+                <td><a class="report-link" href="reports/Qwen3-Omni-30B-A3B-Instruct/detailed_report.html">Detailed report</a></td>
+              </tr>
+            </tbody>
           </table>
         </div>
-        <p class="note" id="table-status">Loading benchmark results...</p>
+        <p class="note" id="table-status">5 models shown.</p>
       </section>
 
       <section class="tab-panel" id="add-model" data-tab-panel="add-model">

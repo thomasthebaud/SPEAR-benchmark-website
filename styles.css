@@ -107,11 +107,13 @@ main {
   display: none;
 }
 
-.tab-panel.active {
+.tab-panel.active,
+.tab-panel:target {
   display: block;
 }
 
-.hero-panel.active {
+.hero-panel.active,
+.hero-panel:target {
   display: grid;
 }
 
