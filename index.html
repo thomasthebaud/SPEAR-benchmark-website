@@ -237,9 +237,9 @@
             <div>
               <h2>Capture model outputs</h2>
               <p>
-                Use the benchmark code in
-                <a href="https://github.com/thomasthebaud/SPEAR-benchmark" target="_blank" rel="noreferrer">thomasthebaud/SPEAR-benchmark</a>.
-                With the right environment (instructions in the README), running <code>bash 02_LLM_inference.sh</code> should generate outputs for your model. The main customization is adding an adapted proxy at <code>bin/LLM_proxies/my_model_name.py</code> so the benchmark can call your model consistently. Once processed, the outputs should be in data/seamless_2t_2s_questions/outputs/my_model_name.
+                Use the helper code in
+                <a href="https://github.com/thomasthebaud/SPEAR-benchmark-website/tree/main/inference_help_code" target="_blank" rel="noreferrer">inference_help_code</a>.
+                The included README explains the environment, data layout, and submission steps. With the right configuration, running <code>bash run_LLM_inference.sh</code> should generate outputs for your model. The main customization is adding an adapted proxy at <code>bin/llm_proxies/my_model_name.py</code> so the helper can call your model consistently. Once processed, the outputs should be in <code>data/seamless_2t_2s_questions/outputs/my_model_name</code>.
               </p>
             </div>
           </li>
