@@ -63,27 +63,6 @@
         </div>
       </section>
 
-      <section class="tab-panel active" data-tab-panel="welcome">
-        <div class="section-heading">
-          <h2>Related Articles</h2>
-          <p>Replace the placeholder URLs below with the final publication links as they become available.</p>
-        </div>
-        <div class="article-list">
-          <a href="#" aria-disabled="true">
-            <strong>TRACE</strong>
-            <span>Publication link pending</span>
-          </a>
-          <a href="#" aria-disabled="true">
-            <strong>STANCEs</strong>
-            <span>Publication link pending</span>
-          </a>
-          <a href="https://github.com/facebookresearch/seamless_interaction" target="_blank" rel="noreferrer">
-            <strong>Seamless Interaction</strong>
-            <span>Dataset and tooling reference</span>
-          </a>
-        </div>
-      </section>
-
       <section class="tab-panel" id="benchmark" data-tab-panel="benchmark">
         <div class="section-heading">
           <h1>Benchmark</h1>
@@ -260,7 +239,7 @@
               <p>
                 Use the benchmark code in
                 <a href="https://github.com/thomasthebaud/SPEAR-benchmark" target="_blank" rel="noreferrer">thomasthebaud/SPEAR-benchmark</a>.
-                With the right environment, running <code>02_LLM_inference</code> should generate outputs for your model. The main customization is adding an adapted proxy at <code>bin/LLM_proxies/my_model_name.py</code> so the benchmark can call your model consistently.
+                With the right environment (instructions in the README), running <code>bash 02_LLM_inference.sh</code> should generate outputs for your model. The main customization is adding an adapted proxy at <code>bin/LLM_proxies/my_model_name.py</code> so the benchmark can call your model consistently. Once processed, the outputs should be in data/seamless_2t_2s_questions/outputs/my_model_name.
               </p>
             </div>
           </li>
@@ -272,22 +251,87 @@
                 Send the generated response audios and a metadata CSV using the same structure as the input metadata.
                 A small example is included here: <a href="metadata-example.csv">metadata-example.csv</a>.
               </p>
-              <div class="metadata-example" aria-label="Metadata CSV example">
-                <pre><code>audio_path,answer_audio_path,context_end_time,question_end_time,answer_duration,speakers,conversation_id,transcript_question,transcript_answer,answer_start_time
-# See metadata-example.csv for the first five rows from the test improvised split.</code></pre>
+              <div class="metadata-example table-wrap" aria-label="Metadata CSV example">
+                <table class="metadata-table">
+                  <thead>
+                    <tr><th>audio_path</th><th>answer_audio_path</th><th>context_end_time</th><th>question_end_time</th><th>answer_duration</th><th>speakers</th><th>conversation_id</th><th>transcript_question</th><th>transcript_answer</th><th>answer_start_time</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>data/seamless_2t_2s_questions/inputs/test/improvised/audios/V00_S2017_I00001160_P1273A_P2072A_0.wav</td>
+                      <td></td>
+                      <td>16.576999999999998</td>
+                      <td>19.53800000000001</td>
+                      <td></td>
+                      <td>P1273A|P2072A</td>
+                      <td>V00_S2017_I00001160</td>
+                      <td class="sample-transcript">P2072A: So I bought this facial cleanser the other day and it&#x27;s actually making me break out so I was wondering if I can return it because I&#x27;m just not liking it very much. P1273A: Mm-hmm. P2072A: My skin is very sensitive to it. P1273A: Mm-hmm, and you bought it a couple days ago? P1273A: Uh-huh, and you&#x27;re not happy with it?</td>
+                      <td class="sample-transcript">: </td>
+                      <td>-2.6710000000000207</td>
+                    </tr>
+                    <tr>
+                      <td>data/seamless_2t_2s_questions/inputs/test/improvised/audios/V00_S2017_I00001160_P1273A_P2072A_1.wav</td>
+                      <td></td>
+                      <td>6.212999999999994</td>
+                      <td>7.193999999999988</td>
+                      <td></td>
+                      <td>P1273A|P2072A</td>
+                      <td>V00_S2017_I00001160</td>
+                      <td class="sample-transcript">P2072A: My skin is very sensitive to it. P1273A: Mm-hmm, and you bought it a couple days ago? P1273A: Uh-huh, and you&#x27;re not happy with it? P2072A: Yeah, actually three days ago, yeah. P1273A: Your face is breaking out?</td>
+                      <td class="sample-transcript">: </td>
+                      <td>0.2400000000000091</td>
+                    </tr>
+                    <tr>
+                      <td>data/seamless_2t_2s_questions/inputs/test/improvised/audios/V00_S2017_I00001160_P1273A_P2072A_2.wav</td>
+                      <td></td>
+                      <td>9.292000000000002</td>
+                      <td>13.072000000000003</td>
+                      <td></td>
+                      <td>P1273A|P2072A</td>
+                      <td>V00_S2017_I00001160</td>
+                      <td class="sample-transcript">P2072A: Yeah, it&#x27;s getting, it&#x27;s breaking out. P2072A: I&#x27;m having like little red blotches and some like just other discomfort, so yeah. P1273A: Oh, I&#x27;m really, I&#x27;m sorry to hear that. P1273A: We want you to be happy. P1273A: Would you like to choose another product from the line or look around?</td>
+                      <td class="sample-transcript">: </td>
+                      <td>1.8359999999999843</td>
+                    </tr>
+                    <tr>
+                      <td>data/seamless_2t_2s_questions/inputs/test/improvised/audios/V00_S2017_I00001160_P1273A_P2072A_3.wav</td>
+                      <td></td>
+                      <td>3.686000000000007</td>
+                      <td>4.506</td>
+                      <td></td>
+                      <td>P1273A|P2072A</td>
+                      <td>V00_S2017_I00001160</td>
+                      <td class="sample-transcript">P2072A: No, I think I&#x27;d just like to get a refund in total. P1273A: You want a refund? P1273A: Okay. P2072A: Yeah. P1273A: May I see your receipt?</td>
+                      <td class="sample-transcript">: </td>
+                      <td>1.356000000000023</td>
+                    </tr>
+                    <tr>
+                      <td>data/seamless_2t_2s_questions/inputs/test/improvised/audios/V00_S2017_I00001160_P1273A_P2072A_4.wav</td>
+                      <td></td>
+                      <td>6.158999999999992</td>
+                      <td>7.0800000000000125</td>
+                      <td></td>
+                      <td>P1273A|P2072A</td>
+                      <td>V00_S2017_I00001160</td>
+                      <td class="sample-transcript">P1273A: Okay. P2072A: Yeah. P1273A: May I see your receipt? P2072A: Well, the funny thing is I actually can&#x27;t find it. P2072A: Is that gonna be a problem?</td>
+                      <td class="sample-transcript">: </td>
+                      <td>0.6219999999999857</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-              <dl class="column-list">
-                <div><dt><code>audio_path</code></dt><dd>Path to the benchmark input audio for this prompt.</dd></div>
-                <div><dt><code>answer_audio_path</code></dt><dd>Path to your model's generated answer audio for the same prompt.</dd></div>
-                <div><dt><code>context_end_time</code></dt><dd>Timestamp where the dialogue context ends in the input audio.</dd></div>
-                <div><dt><code>question_end_time</code></dt><dd>Timestamp where the user question ends.</dd></div>
-                <div><dt><code>answer_duration</code></dt><dd>Duration of your model's generated answer audio.</dd></div>
-                <div><dt><code>speakers</code></dt><dd>Speaker identifiers for the source conversation.</dd></div>
-                <div><dt><code>conversation_id</code></dt><dd>Identifier linking examples from the same conversation.</dd></div>
-                <div><dt><code>transcript_question</code></dt><dd>Transcript of the dialogue context and user question.</dd></div>
-                <div><dt><code>transcript_answer</code></dt><dd>Transcript of your model's response, when available.</dd></div>
-                <div><dt><code>answer_start_time</code></dt><dd>Start time of the answer relative to the question boundary.</dd></div>
-              </dl>
+              <ul class="column-list">
+                <li><code>audio_path</code>: path to the benchmark input audio for this prompt.</li>
+                <li><code>answer_audio_path</code>: path to your model's generated answer audio for the same prompt.</li>
+                <li><code>context_end_time</code>: timestamp where the dialogue context ends in the input audio.</li>
+                <li><code>question_end_time</code>: timestamp where the user question ends.</li>
+                <li><code>answer_duration</code>: duration of your model's generated answer audio.</li>
+                <li><code>speakers</code>: speaker identifiers for the source conversation.</li>
+                <li><code>conversation_id</code>: identifier linking examples from the same conversation.</li>
+                <li><code>transcript_question</code>: transcript of the dialogue context and user question.</li>
+                <li><code>transcript_answer</code>: transcript of your model's response, when available.</li>
+                <li><code>answer_start_time</code>: start time of the answer relative to the question boundary.</li>
+              </ul>
             </div>
           </li>
         </ol>
@@ -302,6 +346,28 @@
           </p>
         </div>
       </section>
+      <section class="tab-panel active" data-tab-panel="welcome">
+        <div class="section-heading">
+          <h2>Related Articles</h2>
+          <p>Replace the placeholder URLs below with the final publication links as they become available.</p>
+        </div>
+        <div class="article-list">
+          <a href="#" aria-disabled="true">
+            <strong>TRACE</strong>
+            <span>Publication link pending</span>
+          </a>
+          <a href="#" aria-disabled="true">
+            <strong>STANCEs</strong>
+            <span>Publication link pending</span>
+          </a>
+          <a href="https://github.com/facebookresearch/seamless_interaction" target="_blank" rel="noreferrer">
+            <strong>Seamless Interaction</strong>
+            <span>Dataset and tooling reference</span>
+          </a>
+        </div>
+      </section>
+
+
     </main>
 
     <footer>
