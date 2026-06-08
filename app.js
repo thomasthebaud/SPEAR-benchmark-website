@@ -1,3 +1,4 @@
+document.documentElement.classList.add("js-enabled");
 const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
 const links = Array.from(document.querySelectorAll("[data-tab-link]"));
 const table = document.querySelector("#benchmark-table");
@@ -38,7 +39,8 @@ const readableHeaders = {
 };
 
 function activateTab(name) {
-  const selected = name || "welcome";
+  const validTabs = new Set(links.map((link) => link.dataset.tabLink));
+  const selected = validTabs.has(name) ? name : "welcome";
   panels.forEach((panel) => {
     panel.classList.toggle("active", panel.dataset.tabPanel === selected);
   });
@@ -161,12 +163,17 @@ async function loadBenchmark() {
     ));
     renderTable(benchmarkRows);
   } catch (error) {
-    statusEl.textContent = `Could not load benchmark.csv: ${error.message}`;
+    if (statusEl) {
+      statusEl.textContent = `Showing embedded benchmark table. Could not refresh benchmark.csv: ${error.message}`;
+    }
   }
 }
 
 function setupContactForm() {
   const form = document.querySelector("#contact-form");
+  if (!form) {
+    return;
+  }
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(form);
@@ -183,11 +190,13 @@ links.forEach((link) => {
   link.addEventListener("click", () => activateTab(link.dataset.tabLink));
 });
 
-filterEl.addEventListener("input", () => {
-  const query = filterEl.value.trim().toLowerCase();
-  const rows = benchmarkRows.filter((row) => row.model.toLowerCase().includes(query));
-  renderTable(rows);
-});
+if (filterEl) {
+  filterEl.addEventListener("input", () => {
+    const query = filterEl.value.trim().toLowerCase();
+    const rows = benchmarkRows.filter((row) => row.model.toLowerCase().includes(query));
+    renderTable(rows);
+  });
+}
 
 window.addEventListener("hashchange", () => activateTab(window.location.hash.slice(1)));
 
