@@ -1,0 +1,6 @@
+protocol,model,avg_latency,avg_UTMOS,avg_WER_%,WER_%_std_between_asr_models,average_number_of_interruptions_per_dialogue,number_of_dialogues_with_interruption,interrupted_time_s,EN_lang_%,second_most_spoken_language,percentage_2nd_language,same_dialect_%,NA_dialect_%,avg_emo_naturalness_logit,same_stance_as_question_%,more_negative_stance_%,more_positive_stance_%,avg_general_expl_feat
+seamless_2t_2s_questions,gpt-audio-1.5,130.863,4.362,5.796,0.431,0.000,0/3036,0.000,100.000,,,74.633,97.379,10.908,95.122,2.439,2.962,-1.257
+seamless_2t_2s_questions,gpt-realtime-2,103.864,4.275,14.910,0.573,0.447,714/3028,0.431,100.000,,,75.133,98.027,10.893,94.889,3.066,2.385,-0.622
+seamless_2t_2s_questions,original,742.055,2.222,40.649,5.449,0.520,922/2725,0.521,99.272,dan,0.221,74.124,76.641,10.909,100.000,0.000,0.000,-0.670
+seamless_2t_2s_questions,Qwen2.5-Omni-7B,277.361,4.192,19.370,1.772,0.000,0/3039,0.000,98.899,jav,0.356,52.144,65.565,10.195,96.567,2.146,1.717,1.040
+seamless_2t_2s_questions,Qwen3-Omni-30B-A3B-Instruct,27.246,4.338,7.923,1.166,0.000,0/3039,0.000,98.140,Chinese,0.710,69.504,89.593,10.906,96.610,1.695,2.684,-0.134

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SPEAR Benchmark</title>
+    <meta name="description" content="SPEAR Benchmark leaderboard and reports for spoken dialogue model evaluation.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#welcome" aria-label="SPEAR Benchmark home">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span>
+          <strong>SPEAR Benchmark</strong>
+          <small>Speech evaluation for interactive dialogue models</small>
+        </span>
+      </a>
+      <nav class="tabs" aria-label="Primary navigation">
+        <a class="tab-link" href="#welcome" data-tab-link="welcome">Welcome</a>
+        <a class="tab-link" href="#benchmark" data-tab-link="benchmark">Benchmark</a>
+        <a class="tab-link" href="#add-model" data-tab-link="add-model">Add Your Model</a>
+        <a class="tab-link" href="#contact" data-tab-link="contact">Contact Us</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="tab-panel hero-panel" id="welcome" data-tab-panel="welcome">
+        <div class="hero-copy">
+          <p class="eyebrow">SPEARBench</p>
+          <h1>Benchmarking speech agents where conversation gets real.</h1>
+          <p class="lead">
+            SPEAR Benchmark evaluates spoken dialogue models across latency, intelligibility,
+            naturalness, interruptions, language and dialect behavior, stance, and explainable
+            speech features.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="https://github.com/tthebaud/SPEARBench" target="_blank" rel="noreferrer">SPEARBench GitHub</a>
+            <a class="button" href="#benchmark">View Benchmark</a>
+          </div>
+        </div>
+        <img class="hero-image" src="assets/spear-benchmark-banner.png" alt="Abstract audio waveforms, spectrogram texture, and evaluation grid for speech AI benchmarking.">
+      </section>
+
+      <section class="tab-panel" data-tab-panel="welcome">
+        <div class="section-heading">
+          <h2>What Is Here</h2>
+          <p>Use the tabs to move between project context, the leaderboard, submission instructions, and contact.</p>
+        </div>
+        <div class="info-grid">
+          <article>
+            <h3>Benchmark</h3>
+            <p>Compare evaluated models and open the generated detailed report for each available model.</p>
+          </article>
+          <article>
+            <h3>Add Your Model</h3>
+            <p>Follow the submission format so new model outputs can be scored with the same pipeline.</p>
+          </article>
+          <article>
+            <h3>Contact Us</h3>
+            <p>Send questions, collaboration notes, or model submission messages to the SPEARBench team.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="welcome">
+        <div class="section-heading">
+          <h2>Related Articles</h2>
+          <p>Replace the placeholder URLs below with the final publication links as they become available.</p>
+        </div>
+        <div class="article-list">
+          <a href="#" aria-disabled="true">
+            <strong>TRACE</strong>
+            <span>Publication link pending</span>
+          </a>
+          <a href="#" aria-disabled="true">
+            <strong>STANCEs</strong>
+            <span>Publication link pending</span>
+          </a>
+          <a href="https://github.com/facebookresearch/seamless_interaction" target="_blank" rel="noreferrer">
+            <strong>Seamless Interaction</strong>
+            <span>Dataset and tooling reference</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="tab-panel" id="benchmark" data-tab-panel="benchmark">
+        <div class="section-heading">
+          <h1>Benchmark</h1>
+          <p>Current results copied from <code>benchmark.csv</code> for <code>seamless_2t_2s_questions</code>.</p>
+        </div>
+        <div class="table-tools">
+          <label>
+            <span>Filter models</span>
+            <input id="model-filter" type="search" placeholder="Type a model name">
+          </label>
+          <a class="button" href="benchmark.csv" download>Download CSV</a>
+        </div>
+        <div class="table-wrap" role="region" aria-label="SPEAR Benchmark table" tabindex="0">
+          <table id="benchmark-table">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="note" id="table-status">Loading benchmark results...</p>
+      </section>
+
+      <section class="tab-panel" id="add-model" data-tab-panel="add-model">
+        <div class="section-heading">
+          <h1>Add Your Model</h1>
+          <p>Send model outputs in the expected audio and metadata format so they can be added to the leaderboard.</p>
+        </div>
+        <ol class="steps">
+          <li>
+            <span>1</span>
+            <div>
+              <h2>Download the datasets</h2>
+              <p>Download the test and dev datasets from the release location.</p>
+              <a href="#" aria-disabled="true">Dataset link pending</a>
+            </div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>
+              <h2>Capture model outputs</h2>
+              <p>Run your model on every input and keep the generated response audio files organized by split and condition.</p>
+            </div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>
+              <h2>Send audio and metadata</h2>
+              <p>
+                Send the generated audios and a CSV matching the format of
+                <code>data/seamless_2t_2s_questions/outputs/gpt-realtime-2/test/naturalistic/metadata.csv</code>.
+              </p>
+              <p class="code-line">Required columns: <code>audio_path</code>, <code>answer_audio_path</code>, <code>context_end_time</code>, <code>question_end_time</code>, <code>answer_duration</code>, <code>speakers</code>, <code>conversation_id</code>, <code>transcript_question</code>, <code>transcript_answer</code>, <code>answer_start_time</code>, <code>finish_reason</code>.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="tab-panel contact-layout" id="contact" data-tab-panel="contact">
+        <div class="section-heading">
+          <h1>Contact Us</h1>
+          <p>Questions, paper links, model submissions, and collaboration notes can go straight to the SPEARBench contact address.</p>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <label>
+            <span>Name</span>
+            <input name="name" type="text" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input name="email" type="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="8" required></textarea>
+          </label>
+          <button class="button primary" type="submit">Send</button>
+          <p class="note">This static GitHub Pages form opens your email client with a prefilled message to tthebau1@jhu.edu.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <span>SPEAR Benchmark</span>
+      <a href="mailto:tthebau1@jhu.edu">tthebau1@jhu.edu</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

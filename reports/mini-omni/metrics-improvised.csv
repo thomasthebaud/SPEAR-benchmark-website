@@ -1,0 +1,7 @@
+metric,section,mean_diff,std_diff,p_value,n,auroc,accuracy,detail
+English language detected in original answers (%),Language ID,98.17708333333333,,,1152.0,,,percentage of language_id.csv rows with language=eng; numerator=1131; denominator=1152
+Emotional naturalness,Emotional Naturalness,-1.0620289241067238,3.3928477270309667,0.09850384863839655,72.0,,,normalized naturalness_logit model-original
+Emotional naturalness by relationship: collaborative_storytelling,Emotional Naturalness,,,,,,,relationship_type=collaborative_storytelling; original_mean=0.8974; model_mean=nan; original_n=4.0000; model_n=nan
+Emotional naturalness by relationship: grounded_gesture,Emotional Naturalness,,,,,,,relationship_type=grounded_gesture; original_mean=3.6915; model_mean=nan; original_n=8.0000; model_n=nan
+Emotional naturalness by relationship: ipc_conversation,Emotional Naturalness,,,,,,,relationship_type=ipc_conversation; original_mean=4.1686; model_mean=nan; original_n=18.0000; model_n=nan
+Emotional naturalness by relationship: stranger,Emotional Naturalness,-0.48859886390149665,,,84.0,,,relationship_type=stranger; original_mean=6.4397; model_mean=5.9511; original_n=837.0000; model_n=84.0000

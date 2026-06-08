@@ -1,0 +1,163 @@
+SPEARBench Short Report
+=======================
+
+Data
+----
+metric                        Improvised dev  Improvised test  Naturalistic dev  Naturalistic test  Total
+Unique original dialogues     270             181              480               511                1442
+Selected dialogues            1165            994              1529              1731               5419
+Hours of questions            4.78h           3.76h            6.76h             7.47h              22.77h
+Hours of original answers     2.67h           2.29h            5.23h             4.36h              14.56h
+Original total hours          7.45h           6.05h            12.00h            11.83h             37.33h
+Hours of generated answers    2.76h           2.20h            3.50h             3.97h              12.42h
+Mean original answer length   8.26s           8.28s            12.32s            9.07s
+Mean generated answer length  7.57s           7.13s            7.51s             7.41s
+
+Models
+------
+parameter                            value
+LLM model used for inference         Qwen2.5-Omni-7B
+ASR models used                      Qwen3-ASR-0.6B, whisper-large-v3
+Language ID model                    facebook/mms-lid-126
+Dialect ID model                     tiantiaf/voxlect-english-dialect-whisper-large-v3
+LLM used for stance                  gpt-audio-1.5
+Statistical tests used for p-values  Mann-Whitney U Test
+UTMOS model                          tarepan/SpeechMOS:v1.2.0 utmos22_strong
+VAD model                            silero-vad
+
+Setup
+-----
+parameter         value
+protocol          seamless_2t_2s_questions
+selection_method  end_with_question
+min_turns         2
+min_speakers      2
+splits            dev,test
+subsets           improvised,naturalistic
+data_root         data/seamless_2t_2s_questions
+results_root      results/seamless_2t_2s_questions
+
+Intelligibility and Interruption Metrics
+----------------------------------------
+subset        metric                                         model_mean  original_mean  mean_diff
+improvised    CER_Qwen3-ASR-0.6B                             5.78        30.32          -24.54
+improvised    CER_whisper-large-v3                           6.43        23.63          -17.20
+improvised    WER_Qwen3-ASR-0.6B                             20.65       42.09          -21.44
+improvised    WER_whisper-large-v3                           17.16       31.05          -13.89
+improvised    UTMOS                                          4.1907      2.3207         1.8699
+improvised    latency                                        277.8179    415.3924       -137.5745
+improvised    average number of interruptions per dialogues  0.00        0.55           -0.55
+improvised    interrupted time (s)                           0.000       0.522          -0.522
+improvised    number of dialogues with interruption          0/1109      377/994        -377
+naturalistic  CER_Qwen3-ASR-0.6B                             6.83        37.14          -30.31
+naturalistic  CER_whisper-large-v3                           9.77        30.49          -20.72
+naturalistic  WER_Qwen3-ASR-0.6B                             21.43       48.43          -27.01
+naturalistic  WER_whisper-large-v3                           17.85       37.62          -19.77
+naturalistic  UTMOS                                          4.1920      2.1655         2.0265
+naturalistic  latency                                        277.0984    929.6360       -652.5376
+naturalistic  average number of interruptions per dialogues  0.00        0.50           -0.50
+naturalistic  interrupted time (s)                           0.000       0.520          -0.520
+naturalistic  number of dialogues with interruption          0/1930      545/1731       -545
+
+Language and Dialect ID
+-----------------------
+subset        % Eng in models' answers  % Eng in original answers  second most spoken language in models' answers  percentage 2nd language in models' answers  second most spoken language in original answers  percentage 2nd language in original answers
+improvised    99.4619                   99.7354                    Japanese                                        0.1794                                      Vietnamese                                       0.0882
+naturalistic  98.5816                   99.0133                    jav                                             0.4559                                      dan                                              0.3453
+
+Dialect distribution
+~~~~~~~~~~~~~~~~~~~~
+Subset        Question/Answer  East Asia  English  Germanic  Irish   North America  Northern Irish  Oceania  Other   Romance  Scottish  Semitic  Slavic  South African  Southeast Asia  South Asia  Welsh
+improvised    Question         0.3472     0.0868   0.0868    5.5556  80.1215        0.0000          0.0868   0.0000  9.0278   0.0868    0.0868   0.3472  0.0000         0.3472          0.0868      0.0000
+improvised    Answer           6.0415     0.1803   0.7214    0.9017  65.4644        0.2705          0.0000   0.9017  10.6402  0.0000    0.0000   0.8115  0.0000         14.0667         0.0000      0.0000
+naturalistic  Question         1.9455     0.5350   0.2918    4.2315  68.9689        0.0000          0.2432   0.1946  15.8074  0.0973    0.2432   0.2432  0.3405         1.2646          0.2432      0.0000
+naturalistic  Answer           5.9609     0.0000   0.5139    0.8222  65.6218        0.4111          0.0000   0.5653  11.5108  0.0000    0.0000   0.5653  0.0000         14.0288         0.0000      0.0000
+
+Emotional Naturalness
+---------------------
+See detailed report graphs.
+
+STANCE
+------
+Stance descriptions
+question  positive_original_%  negative_original_%  definition
+Q0        82.1918              17.8082              Based on the audio, does the TARGET speaker sound warm and affiliative, or cold and detached?
+Q1        48.2456              51.7544              Based on the audio, does the TARGET speaker sound compassionate and supportive, or callous and unsympathetic?
+Q2        32.1429              67.8571              Based on the audio, does the TARGET speaker sound polite and respectful, or rude and disrespectful?
+Q3        21.4286              78.5714              Based on the audio, does the TARGET speaker sound assertive and self-confident, or hesitant and inhibited?
+Q4        57.8431              42.1569              Based on the audio, does the TARGET speaker sound straightforward and sincere, or sly and manipulative?
+Q5        100.0000             0.0000               Based on the audio, does the TARGET speaker sound attentive and focused, or confused and distracted?
+Q6        23.0769              76.9231              Based on the audio, does the TARGET speaker sound organized and goal-driven, or disorganized and unmotivated?
+Q7        68.3544              31.6456              Based on the audio, does the TARGET speaker sound socially engaged and expressive with the other speaker, or withdrawn and disengaged?
+Q8        45.0704              54.9296              Based on the audio, does the TARGET speaker accommodate and yield to the other speaker’s preferences, or do they try to control and dominate?
+Q9        0.0000               100.0000             Based on the audio, does the TARGET speaker stay calm and avoid confrontation, or are they hostile and aggressive?
+
+STANCE results
+dataset          STANCE same sign (%)  More positive (%)  More negative (%)
+original         100.0000              0.0000             0.0000
+Qwen2.5-Omni-7B  96.5665               1.7167             2.1459
+
+Explainable Features
+--------------------
+improvised
+rank_group     metric                n     mean_diff  std_diff   p_value    auroc   accuracy
+highest_auroc  f0_voiced_duration_s  1152  -7.4391    11.6717    0          0.9645  0.8411
+highest_auroc  f0_n_voiced_frames    1152  -743.2561  1166.9326  0          0.9645  0.8411
+highest_auroc  f0_total_duration_s   1152  -13.1162   18.7068    4.87e-296  0.9424  0.8069
+highest_auroc  f0_range_raw          1151  -129.7654  121.2301   1.05e-176  0.8410  0.8085
+highest_auroc  f0_max_raw            1151  -127.9607  119.3084   6.06e-174  0.8383  0.8102
+highest_auroc  f0_median_raw         1151  20.2628    46.6951    4e-38      0.6553  0.6739
+highest_auroc  f0_mean_p25_p75       1151  18.4527    45.7100    3.88e-35   0.6488  0.6822
+highest_auroc  f0_mean_p10_p90       1151  14.5483    45.3838    8.49e-26   0.6264  0.6717
+highest_auroc  f0_p75                1151  14.1943    60.5858    5.71e-18   0.6039  0.6535
+highest_auroc  f0_mean_raw           1151  7.8537     44.1719    1.54e-12   0.5851  0.6461
+lowest_auroc   f0_range_p25_p75      1151  -0.8615    44.9974    0.000463   0.5421  0.5202
+lowest_auroc   f0_std_p25_p75        1151  -0.1974    14.1605    0.00038    0.5428  0.5089
+lowest_auroc   f0_std_p10_p90        1151  -0.0646    21.0072    0.000102   0.5467  0.5354
+lowest_auroc   f0_range_p10_p90      1151  3.7164     71.4542    6.71e-08   0.5650  0.5818
+lowest_auroc   f0_mean_raw           1151  7.8537     44.1719    1.54e-12   0.5851  0.6461
+lowest_auroc   f0_p75                1151  14.1943    60.5858    5.71e-18   0.6039  0.6535
+lowest_auroc   f0_mean_p10_p90       1151  14.5483    45.3838    8.49e-26   0.6264  0.6717
+lowest_auroc   f0_mean_p25_p75       1151  18.4527    45.7100    3.88e-35   0.6488  0.6822
+lowest_auroc   f0_median_raw         1151  20.2628    46.6951    4e-38      0.6553  0.6739
+lowest_auroc   f0_max_raw            1151  -127.9607  119.3084   6.06e-174  0.8383  0.8102
+naturalistic
+rank_group     metric                n     mean_diff  std_diff   p_value    auroc   accuracy
+highest_auroc  f0_n_voiced_frames    2056  -736.5306  1259.7492  0          0.9529  0.7755
+highest_auroc  f0_voiced_duration_s  2056  -7.3698    12.6001    0          0.9528  0.7758
+highest_auroc  f0_total_duration_s   2056  -15.6468   20.4210    0          0.9430  0.7770
+highest_auroc  f0_range_raw          2055  -108.0119  133.9812   4.61e-212  0.7799  0.7628
+highest_auroc  f0_max_raw            2055  -104.9189  132.0800   1.15e-205  0.7756  0.7650
+highest_auroc  f0_range_p10_p90      2055  25.7958    64.7512    1.73e-104  0.6955  0.6648
+highest_auroc  f0_p75                2055  30.3352    61.7653    1.27e-101  0.6927  0.6903
+highest_auroc  f0_median_raw         2055  28.2243    52.7172    2.29e-98   0.6896  0.6867
+highest_auroc  f0_mean_p25_p75       2055  27.0512    51.8427    2.5e-96    0.6876  0.6918
+highest_auroc  f0_std_p25_p75        2055  3.4063     11.9667    5.06e-95   0.6863  0.6166
+lowest_auroc   f0_mean_raw           2055  18.4638    49.2641    3.56e-53   0.6382  0.6616
+lowest_auroc   f0_mean_p10_p90       2055  23.9947    50.8819    6.53e-81   0.6716  0.6818
+lowest_auroc   f0_range_p25_p75      2055  12.0568    38.1643    1.22e-92   0.6839  0.6144
+lowest_auroc   f0_std_p10_p90        2055  6.2955     18.5125    5.69e-93   0.6842  0.6305
+lowest_auroc   f0_std_p25_p75        2055  3.4063     11.9667    5.06e-95   0.6863  0.6166
+lowest_auroc   f0_mean_p25_p75       2055  27.0512    51.8427    2.5e-96    0.6876  0.6918
+lowest_auroc   f0_median_raw         2055  28.2243    52.7172    2.29e-98   0.6896  0.6867
+lowest_auroc   f0_p75                2055  30.3352    61.7653    1.27e-101  0.6927  0.6903
+lowest_auroc   f0_range_p10_p90      2055  25.7958    64.7512    1.73e-104  0.6955  0.6648
+lowest_auroc   f0_max_raw            2055  -104.9189  132.0800   1.15e-205  0.7756  0.7650
+cluster_features_rho0p8
+corr_cluster_001_rho0p8             1152  -1.7055  1.5887  3.37e-175  nan  nan
+corr_cluster_002_rho0p8             1152  0.7728   2.4455  6.95e-25   nan  nan
+corr_cluster_003_rho0p8             1152  -1.3720  1.9974  0          nan  nan
+corr_cluster_004_rho0p8             1152  0.0098   2.5612  2.49e-05   nan  nan
+general_explainable_feature_rho0p8  1152  1.0314   3.0916  2.52e-36   nan  nan
+cluster_features_rho0p8
+corr_cluster_001_rho0p8             2056  -1.4103  1.7595  9.77e-210  nan  nan
+corr_cluster_002_rho0p8             2056  1.5123   3.1274  3.55e-86   nan  nan
+corr_cluster_003_rho0p8             2056  -1.2338  1.8623  0          nan  nan
+corr_cluster_004_rho0p8             2056  0.9053   2.5694  1.43e-101  nan  nan
+general_explainable_feature_rho0p8  2056  2.0897   3.4761  5.04e-168  nan  nan
+
+Files
+-----
+metrics-improvised.csv    reports/seamless_2t_2s_questions/Qwen2.5-Omni-7B/metrics-improvised.csv
+metrics-naturalistic.csv  reports/seamless_2t_2s_questions/Qwen2.5-Omni-7B/metrics-naturalistic.csv
+report.txt                reports/seamless_2t_2s_questions/Qwen2.5-Omni-7B/report.txt
