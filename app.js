@@ -112,7 +112,20 @@ function modelReportCell(model) {
   return `<a class="report-link" href="${url}">Detailed report</a>`;
 }
 
+function sortBenchmarkRows(rows) {
+  return [...rows].sort((left, right) => {
+    if (left.model === "original") {
+      return -1;
+    }
+    if (right.model === "original") {
+      return 1;
+    }
+    return left.model.localeCompare(right.model);
+  });
+}
+
 function renderTable(rows) {
+  const sortedRows = sortBenchmarkRows(rows);
   const thead = table.querySelector("thead");
   const tbody = table.querySelector("tbody");
   thead.innerHTML = "";
@@ -126,8 +139,11 @@ function renderTable(rows) {
   });
   thead.appendChild(headerRow);
 
-  rows.forEach((row) => {
+  sortedRows.forEach((row) => {
     const tr = document.createElement("tr");
+    if (row.model === "original") {
+      tr.classList.add("baseline-row");
+    }
     benchmarkHeaders.forEach((header) => {
       const td = document.createElement("td");
       const value = row[header] || "";
@@ -147,7 +163,7 @@ function renderTable(rows) {
     tbody.appendChild(tr);
   });
 
-  statusEl.textContent = `${rows.length} model${rows.length === 1 ? "" : "s"} shown.`;
+  statusEl.textContent = `${sortedRows.length} model${sortedRows.length === 1 ? "" : "s"} shown.`;
 }
 
 async function loadBenchmark() {

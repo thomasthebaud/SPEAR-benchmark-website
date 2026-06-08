@@ -123,6 +123,28 @@
               </tr>
             </thead>
             <tbody>
+              <tr class="baseline-row">
+                <td>seamless_2t_2s_questions</td>
+                <td class="model-cell">original</td>
+                <td class="numeric">742.1 ms</td>
+                <td class="numeric">2.222</td>
+                <td class="numeric">40.649</td>
+                <td class="numeric">5.449</td>
+                <td class="numeric">0.520</td>
+                <td>922/2725</td>
+                <td class="numeric">0.521</td>
+                <td class="numeric">99.272</td>
+                <td>dan</td>
+                <td class="numeric">0.221</td>
+                <td class="numeric">74.124</td>
+                <td class="numeric">76.641</td>
+                <td class="numeric">10.909</td>
+                <td class="numeric">100.000</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">0.000</td>
+                <td class="numeric">-0.670</td>
+                <td><span class="no-report">No report</span></td>
+              </tr>
               <tr>
                 <td>seamless_2t_2s_questions</td>
                 <td class="model-cell">gpt-audio-1.5</td>
@@ -166,28 +188,6 @@
                 <td class="numeric">2.385</td>
                 <td class="numeric">-0.622</td>
                 <td><a class="report-link" href="reports/gpt-realtime-2/detailed_report.html">Detailed report</a></td>
-              </tr>
-              <tr>
-                <td>seamless_2t_2s_questions</td>
-                <td class="model-cell">original</td>
-                <td class="numeric">742.1 ms</td>
-                <td class="numeric">2.222</td>
-                <td class="numeric">40.649</td>
-                <td class="numeric">5.449</td>
-                <td class="numeric">0.520</td>
-                <td>922/2725</td>
-                <td class="numeric">0.521</td>
-                <td class="numeric">99.272</td>
-                <td>dan</td>
-                <td class="numeric">0.221</td>
-                <td class="numeric">74.124</td>
-                <td class="numeric">76.641</td>
-                <td class="numeric">10.909</td>
-                <td class="numeric">100.000</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">-0.670</td>
-                <td><span class="no-report">No report</span></td>
               </tr>
               <tr>
                 <td>seamless_2t_2s_questions</td>
@@ -242,22 +242,26 @@
       <section class="tab-panel" id="add-model" data-tab-panel="add-model">
         <div class="section-heading">
           <h1>Add Your Model</h1>
-          <p>Send model outputs in the expected audio and metadata format so they can be added to the leaderboard.</p>
+          <p>Evaluate your speech agent on the SPEAR Benchmark splits, then send us the generated audio and metadata needed to reproduce the scoring pipeline.</p>
         </div>
         <ol class="steps">
           <li>
             <span>1</span>
             <div>
               <h2>Download the datasets</h2>
-              <p>Download the test and dev datasets from the release location.</p>
-              <a href="#" aria-disabled="true">Dataset link pending</a>
+              <p>Download the dev and test data package, then keep the folder structure intact when you run inference.</p>
+              <a class="button" href="https://livejohnshopkins-my.sharepoint.com/:u:/g/personal/tthebau1_jh_edu/IQCfUdAu2DwCSIvxsLV2XO2wAU9aTaFzvM-7gPqVsKhTfZw?e=qzKPey" target="_blank" rel="noreferrer">Download data</a>
             </div>
           </li>
           <li>
             <span>2</span>
             <div>
               <h2>Capture model outputs</h2>
-              <p>Run your model on every input and keep the generated response audio files organized by split and condition.</p>
+              <p>
+                Use the benchmark code in
+                <a href="https://github.com/thomasthebaud/SPEAR-benchmark" target="_blank" rel="noreferrer">thomasthebaud/SPEAR-benchmark</a>.
+                With the right environment, running <code>02_LLM_inference</code> should generate outputs for your model. The main customization is adding an adapted proxy at <code>bin/LLM_proxies/my_model_name.py</code> so the benchmark can call your model consistently.
+              </p>
             </div>
           </li>
           <li>
@@ -265,10 +269,25 @@
             <div>
               <h2>Send audio and metadata</h2>
               <p>
-                Send the generated audios and a CSV matching the format of
-                <code>data/seamless_2t_2s_questions/outputs/gpt-realtime-2/test/naturalistic/metadata.csv</code>.
+                Send the generated response audios and a metadata CSV using the same structure as the input metadata.
+                A small example is included here: <a href="metadata-example.csv">metadata-example.csv</a>.
               </p>
-              <p class="code-line">Required columns: <code>audio_path</code>, <code>answer_audio_path</code>, <code>context_end_time</code>, <code>question_end_time</code>, <code>answer_duration</code>, <code>speakers</code>, <code>conversation_id</code>, <code>transcript_question</code>, <code>transcript_answer</code>, <code>answer_start_time</code>, <code>finish_reason</code>.</p>
+              <div class="metadata-example" aria-label="Metadata CSV example">
+                <pre><code>audio_path,answer_audio_path,context_end_time,question_end_time,answer_duration,speakers,conversation_id,transcript_question,transcript_answer,answer_start_time
+# See metadata-example.csv for the first five rows from the test improvised split.</code></pre>
+              </div>
+              <dl class="column-list">
+                <div><dt><code>audio_path</code></dt><dd>Path to the benchmark input audio for this prompt.</dd></div>
+                <div><dt><code>answer_audio_path</code></dt><dd>Path to your model's generated answer audio for the same prompt.</dd></div>
+                <div><dt><code>context_end_time</code></dt><dd>Timestamp where the dialogue context ends in the input audio.</dd></div>
+                <div><dt><code>question_end_time</code></dt><dd>Timestamp where the user question ends.</dd></div>
+                <div><dt><code>answer_duration</code></dt><dd>Duration of your model's generated answer audio.</dd></div>
+                <div><dt><code>speakers</code></dt><dd>Speaker identifiers for the source conversation.</dd></div>
+                <div><dt><code>conversation_id</code></dt><dd>Identifier linking examples from the same conversation.</dd></div>
+                <div><dt><code>transcript_question</code></dt><dd>Transcript of the dialogue context and user question.</dd></div>
+                <div><dt><code>transcript_answer</code></dt><dd>Transcript of your model's response, when available.</dd></div>
+                <div><dt><code>answer_start_time</code></dt><dd>Start time of the answer relative to the question boundary.</dd></div>
+              </dl>
             </div>
           </li>
         </ol>
@@ -277,24 +296,11 @@
       <section class="tab-panel contact-layout" id="contact" data-tab-panel="contact">
         <div class="section-heading">
           <h1>Contact Us</h1>
-          <p>Questions, paper links, model submissions, and collaboration notes can go straight to the SPEARBench contact address.</p>
+          <p>
+            For questions about the benchmark, evaluated models, submission format, code, datasets, or collaboration ideas, please write to
+            <a href="mailto:tthebau1@jhu.edu">tthebau1@jhu.edu</a>. We are happy to help with reproducing scores, adding new systems, and clarifying how SPEARBench should be used.
+          </p>
         </div>
-        <form id="contact-form" class="contact-form">
-          <label>
-            <span>Name</span>
-            <input name="name" type="text" autocomplete="name" required>
-          </label>
-          <label>
-            <span>Email</span>
-            <input name="email" type="email" autocomplete="email" required>
-          </label>
-          <label>
-            <span>Message</span>
-            <textarea name="message" rows="8" required></textarea>
-          </label>
-          <button class="button primary" type="submit">Send</button>
-          <p class="note">This static GitHub Pages form opens your email client with a prefilled message to tthebau1@jhu.edu.</p>
-        </form>
       </section>
     </main>
 
