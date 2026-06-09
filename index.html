@@ -320,18 +320,48 @@
                   </tbody>
                 </table>
               </div>
-              <ul class="column-list">
-                <li><code>audio_path</code>: path to the benchmark input audio for this prompt.</li>
-                <li><code>answer_audio_path</code>: path to your model's generated answer audio for the same prompt.</li>
-                <li><code>context_end_time</code>: timestamp where the dialogue context ends in the input audio.</li>
-                <li><code>question_end_time</code>: timestamp where the user question ends.</li>
-                <li><code>answer_duration</code>: duration of your model's generated answer audio.</li>
-                <li><code>speakers</code>: speaker identifiers for the source conversation.</li>
-                <li><code>conversation_id</code>: identifier linking examples from the same conversation.</li>
-                <li><code>transcript_question</code>: transcript of the dialogue context and user question.</li>
-                <li><code>transcript_answer</code>: transcript of your model's response, when available.</li>
-                <li><code>answer_start_time</code>: start time of the answer relative to the question boundary.</li>
-              </ul>
+              <div class="field-grid" aria-label="Metadata field descriptions">
+                <article class="field-card">
+                  <h3><span aria-hidden="true">♪</span><code>audio_path</code></h3>
+                  <p>Path to the benchmark input audio for this prompt.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">↗</span><code>answer_audio_path</code></h3>
+                  <p>Path to your model's generated answer audio for the same prompt.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">◴</span><code>context_end_time</code></h3>
+                  <p>Timestamp where the dialogue context ends in the input audio.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">?</span><code>question_end_time</code></h3>
+                  <p>Timestamp where the user question ends.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">⏱</span><code>answer_duration</code></h3>
+                  <p>Duration of your model's generated answer audio.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">◎</span><code>speakers</code></h3>
+                  <p>Speaker identifiers for the source conversation.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">#</span><code>conversation_id</code></h3>
+                  <p>Identifier linking examples from the same conversation.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">“</span><code>transcript_question</code></h3>
+                  <p>Transcript of the dialogue context and user question.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">”</span><code>transcript_answer</code></h3>
+                  <p>Transcript of your model's response, when available.</p>
+                </article>
+                <article class="field-card">
+                  <h3><span aria-hidden="true">▶</span><code>answer_start_time</code></h3>
+                  <p>Start time of the answer relative to the question boundary.</p>
+                </article>
+              </div>
             </div>
           </li>
         </ol>
