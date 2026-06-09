@@ -403,22 +403,26 @@ td.numeric {
 .field-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  gap: 14px;
   margin-top: 16px;
 }
 
 .field-card {
-  padding: 16px;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fbfcf8;
+  background: var(--surface);
 }
 
 .field-card h3 {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 8px;
+  min-height: 48px;
+  margin: 0;
+  padding: 10px 14px;
+  background: #dcefeb;
+  color: var(--accent-strong);
   font-size: 0.95rem;
 }
 
@@ -429,10 +433,16 @@ td.numeric {
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: #e6f1ee;
-  color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: #fff;
+  font-size: 0.82rem;
   font-weight: 900;
   line-height: 1;
+}
+
+.field-card h3 code {
+  color: var(--accent-strong);
+  font-weight: 900;
 }
 
 .field-card code {
@@ -443,6 +453,7 @@ td.numeric {
 }
 
 .field-card p {
+  padding: 14px 16px 16px;
   margin-bottom: 0;
   color: var(--muted);
 }
