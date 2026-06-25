@@ -24,6 +24,15 @@ const modelLinks = {
   "Qwen3-Omni-30B-A3B-Instruct": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct"
 };
 
+const modelLabels = {
+  original: "Original",
+  "gpt-audio-1.5": "GPT-Audio-1.5",
+  "gpt-realtime-2": "GPT-Realtime-2",
+  "mini-omni": "Mini-Omni",
+  "Qwen2.5-Omni-7B": "Qwen2.5-Omni-7B",
+  "Qwen3-Omni-30B-A3B-Instruct": "Qwen3-Omni-30B-A3B-Instruct"
+};
+
 const readableHeaders = {
   model: "Model",
   UTMOS: "UTMOS",
@@ -51,7 +60,7 @@ const readableHeaders = {
 
 const headerGroups = [
   { label: "", headers: ["model"] },
-  { label: "Speech quality", headers: ["UTMOS", "WER_%", "CER_%"] },
+  { label: "Speech Quality", headers: ["UTMOS", "WER_%", "CER_%"] },
   { label: "Interruptions", headers: ["latency_ms", "interrupted_time_ms", "interruptions_%"] },
   { label: "Language and Dialect", headers: ["english_answers_%", "same_dialect_as_question_%", "north_american_dialect_%", "dialectal_entrainment_spearman", "dialectal_variance"] },
   { label: "Emotions", headers: ["emotional_naturalness_logit", "arousal_question_answer_corr", "valence_question_answer_corr", "dominance_question_answer_corr"] },
@@ -160,11 +169,12 @@ function escapeHtml(value) {
 }
 
 function modelNameCell(model) {
+  const label = modelLabels[model] || model;
   const url = modelLinks[model];
   if (!url) {
-    return escapeHtml(model);
+    return escapeHtml(label);
   }
-  return `<a class="model-link" href="${url}" target="_blank" rel="noreferrer">${escapeHtml(model)}</a>`;
+  return `<a class="model-link" href="${url}" target="_blank" rel="noreferrer">${escapeHtml(label)}</a>`;
 }
 
 function modelReportCell(model) {
@@ -172,7 +182,7 @@ function modelReportCell(model) {
     return '<span class="no-report">No report</span>';
   }
   const url = `reports/${encodeURIComponent(model)}/detailed_report.html`;
-  return `<a class="report-link" href="${url}">Detailed report</a>`;
+  return `<a class="report-link" href="${url}" target="_blank" rel="noreferrer">Detailed report</a>`;
 }
 
 function sortBenchmarkRows(rows) {

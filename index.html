@@ -20,6 +20,7 @@
         <a class="tab-link active" href="#welcome" data-tab-link="welcome">Welcome</a>
         <a class="tab-link" href="#benchmark" data-tab-link="benchmark">Benchmark</a>
         <a class="tab-link" href="#add-model" data-tab-link="add-model">Add Your Model</a>
+        <a class="tab-link" href="#references" data-tab-link="references">References</a>
         <a class="tab-link" href="#contact" data-tab-link="contact">Contact Us</a>
       </nav>
     </header>
@@ -42,27 +43,6 @@
         <img class="hero-image" src="assets/spear-benchmark-banner.png" alt="Abstract audio waveforms, spectrogram texture, and evaluation grid for speech AI benchmarking.">
       </section>
 
-      <section class="tab-panel active" data-tab-panel="welcome">
-        <div class="section-heading">
-          <h2>What Is Here</h2>
-          <p>Use the tabs to move between project context, the leaderboard, submission instructions, and contact.</p>
-        </div>
-        <div class="info-grid">
-          <article>
-            <h3>Benchmark</h3>
-            <p>Compare evaluated models and open the generated detailed report for each available model.</p>
-          </article>
-          <article>
-            <h3>Add Your Model</h3>
-            <p>Follow the submission format so new model outputs can be scored with the same pipeline.</p>
-          </article>
-          <article>
-            <h3>Contact Us</h3>
-            <p>Send questions, collaboration notes, or model submission messages to the SPEARBench team.</p>
-          </article>
-        </div>
-      </section>
-
       <section class="tab-panel" id="benchmark" data-tab-panel="benchmark">
         <div class="section-heading">
           <h1>Benchmark</h1>
@@ -78,11 +58,12 @@
         <div class="table-wrap" role="region" aria-label="SPEAR Benchmark table" tabindex="0">
           <table id="benchmark-table">
             <thead>
-              <tr><th>Model</th><th>UTMOS</th><th>WER %</th><th>CER %</th><th>Latency</th><th>Interr. time</th><th>Interr. %</th><th>English answers</th><th>Same dialect</th><th>NA dialect</th><th>Dialectal entrain.</th><th>Dialectal variance</th><th>Emotional naturalness</th><th>Arousal corr.</th><th>Valence corr.</th><th>Dominance corr.</th><th>Same stance</th><th>More negative</th><th>More positive</th><th>Answer duration</th><th>Voiced ratio</th><th>Pitch variation</th><th>Report</th></tr>
+              <tr><th rowspan="2">Model</th><th class="group-heading" colspan="3">Speech Quality</th><th class="group-heading" colspan="3">Interruptions</th><th class="group-heading" colspan="5">Language and Dialect</th><th class="group-heading" colspan="4">Emotions</th><th class="group-heading" colspan="3">Stances</th><th class="group-heading" colspan="3">Explainable Features</th><th rowspan="2">Report</th></tr>
+              <tr><th>UTMOS</th><th>WER %</th><th>CER %</th><th>Latency</th><th>Interr. time</th><th>Interr. %</th><th>English answers</th><th>Same dialect</th><th>NA dialect</th><th>Dialectal entrain.</th><th>Dialectal variance</th><th>Emotional naturalness</th><th>Arousal corr.</th><th>Valence corr.</th><th>Dominance corr.</th><th>Same stance</th><th>More negative</th><th>More positive</th><th>Answer duration</th><th>Voiced ratio</th><th>Pitch variation</th></tr>
             </thead>
             <tbody>
               <tr class="baseline-row">
-                <td class="model-cell">original</td>
+                <td class="model-cell">Original</td>
                 <td class="numeric">2.222</td>
                 <td class="numeric">27.1</td>
                 <td class="numeric">17.2</td>
@@ -107,7 +88,7 @@
                 <td><span class="no-report">No report</span></td>
               </tr>
               <tr>
-                <td class="model-cell"><a class="model-link" href="https://developers.openai.com/api/docs/models/gpt-audio-1.5" target="_blank" rel="noreferrer">gpt-audio-1.5</a></td>
+                <td class="model-cell"><a class="model-link" href="https://developers.openai.com/api/docs/models/gpt-audio-1.5" target="_blank" rel="noreferrer">GPT-Audio-1.5</a></td>
                 <td class="numeric">4.362</td>
                 <td class="numeric">5.8</td>
                 <td class="numeric">1.4</td>
@@ -129,10 +110,10 @@
                 <td class="numeric">9.7</td>
                 <td class="numeric">0.548</td>
                 <td class="numeric">0.118</td>
-                <td><a class="report-link" href="reports/gpt-audio-1.5/detailed_report.html">Detailed report</a></td>
+                <td><a class="report-link" href="reports/gpt-audio-1.5/detailed_report.html" target="_blank" rel="noreferrer">Detailed report</a></td>
               </tr>
               <tr>
-                <td class="model-cell"><a class="model-link" href="https://developers.openai.com/api/docs/models/gpt-realtime-2" target="_blank" rel="noreferrer">gpt-realtime-2</a></td>
+                <td class="model-cell"><a class="model-link" href="https://developers.openai.com/api/docs/models/gpt-realtime-2" target="_blank" rel="noreferrer">GPT-Realtime-2</a></td>
                 <td class="numeric">4.275</td>
                 <td class="numeric">14.9</td>
                 <td class="numeric">5.8</td>
@@ -154,10 +135,10 @@
                 <td class="numeric">19.3</td>
                 <td class="numeric">0.508</td>
                 <td class="numeric">0.164</td>
-                <td><a class="report-link" href="reports/gpt-realtime-2/detailed_report.html">Detailed report</a></td>
+                <td><a class="report-link" href="reports/gpt-realtime-2/detailed_report.html" target="_blank" rel="noreferrer">Detailed report</a></td>
               </tr>
               <tr>
-                <td class="model-cell"><a class="model-link" href="https://huggingface.co/gpt-omni/mini-omni" target="_blank" rel="noreferrer">mini-omni</a></td>
+                <td class="model-cell"><a class="model-link" href="https://huggingface.co/gpt-omni/mini-omni" target="_blank" rel="noreferrer">Mini-Omni</a></td>
                 <td class="numeric">3.923</td>
                 <td class="numeric">6.7</td>
                 <td class="numeric">4.8</td>
@@ -179,7 +160,7 @@
                 <td class="numeric">11.4</td>
                 <td class="numeric">0.592</td>
                 <td class="numeric">0.128</td>
-                <td><a class="report-link" href="reports/mini-omni/detailed_report.html">Detailed report</a></td>
+                <td><a class="report-link" href="reports/mini-omni/detailed_report.html" target="_blank" rel="noreferrer">Detailed report</a></td>
               </tr>
               <tr>
                 <td class="model-cell"><a class="model-link" href="https://huggingface.co/Qwen/Qwen2.5-Omni-7B" target="_blank" rel="noreferrer">Qwen2.5-Omni-7B</a></td>
@@ -204,7 +185,7 @@
                 <td class="numeric">7.2</td>
                 <td class="numeric">0.384</td>
                 <td class="numeric">0.175</td>
-                <td><a class="report-link" href="reports/Qwen2.5-Omni-7B/detailed_report.html">Detailed report</a></td>
+                <td><a class="report-link" href="reports/Qwen2.5-Omni-7B/detailed_report.html" target="_blank" rel="noreferrer">Detailed report</a></td>
               </tr>
               <tr>
                 <td class="model-cell"><a class="model-link" href="https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct" target="_blank" rel="noreferrer">Qwen3-Omni-30B-A3B-Instruct</a></td>
@@ -229,7 +210,7 @@
                 <td class="numeric">8.6</td>
                 <td class="numeric">0.671</td>
                 <td class="numeric">0.219</td>
-                <td><a class="report-link" href="reports/Qwen3-Omni-30B-A3B-Instruct/detailed_report.html">Detailed report</a></td>
+                <td><a class="report-link" href="reports/Qwen3-Omni-30B-A3B-Instruct/detailed_report.html" target="_blank" rel="noreferrer">Detailed report</a></td>
               </tr>
             </tbody>
           </table>
@@ -386,6 +367,39 @@
         </ol>
       </section>
 
+      <section class="tab-panel" id="references" data-tab-panel="references">
+        <div class="section-heading">
+          <h1>References</h1>
+          <p>Core resources and evaluation components used around SPEARBench.</p>
+        </div>
+        <div class="article-list reference-grid">
+          <a class="reference-card" href="https://github.com/facebookresearch/seamless_interaction" target="_blank" rel="noreferrer">
+            <strong>Seamless Interaction</strong>
+            <span>Dialogue data and interaction reference.</span>
+          </a>
+          <a class="reference-card" href="#" aria-disabled="true">
+            <strong>TRACE</strong>
+            <span>Emotion and conversational alignment reference.</span>
+          </a>
+          <a class="reference-card" href="#" aria-disabled="true">
+            <strong>STANCE</strong>
+            <span>Stance behavior evaluation reference.</span>
+          </a>
+          <a class="reference-card" href="#" aria-disabled="true">
+            <strong>SPEARBench</strong>
+            <span>Benchmark protocol, reports, and evaluation code.</span>
+          </a>
+          <a class="reference-card" href="#" aria-disabled="true">
+            <strong>Distributional Baselines</strong>
+            <span>Lexical, pitch, and temporal feature baselines.</span>
+          </a>
+          <a class="reference-card" href="#" aria-disabled="true">
+            <strong>Turn Taking Surprisal</strong>
+            <span>Dual-turn surprisal metrics for response timing.</span>
+          </a>
+        </div>
+      </section>
+
       <section class="tab-panel contact-layout" id="contact" data-tab-panel="contact">
         <div class="section-heading">
           <h1>Contact Us</h1>
@@ -395,28 +409,6 @@
           </p>
         </div>
       </section>
-      <section class="tab-panel active" data-tab-panel="welcome">
-        <div class="section-heading">
-          <h2>Related Articles</h2>
-          <p>Replace the placeholder URLs below with the final publication links as they become available.</p>
-        </div>
-        <div class="article-list">
-          <a href="#" aria-disabled="true">
-            <strong>TRACE</strong>
-            <span>Publication link pending</span>
-          </a>
-          <a href="#" aria-disabled="true">
-            <strong>STANCEs</strong>
-            <span>Publication link pending</span>
-          </a>
-          <a href="https://github.com/facebookresearch/seamless_interaction" target="_blank" rel="noreferrer">
-            <strong>Seamless Interaction</strong>
-            <span>Dataset and tooling reference</span>
-          </a>
-        </div>
-      </section>
-
-
     </main>
 
     <footer>

@@ -98,7 +98,7 @@ a {
 }
 
 main {
-  width: min(1180px, calc(100% - 32px));
+  width: min(1480px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 60px;
 }
@@ -282,6 +282,20 @@ button:hover {
   color: var(--muted);
 }
 
+.reference-grid {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.article-list .reference-card {
+  min-height: 132px;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.reference-card strong {
+  font-size: 1.04rem;
+}
+
 a[aria-disabled="true"] {
   color: var(--muted);
   cursor: default;
@@ -323,14 +337,14 @@ textarea {
 
 table {
   width: 100%;
-  min-width: 1760px;
+  min-width: 1980px;
   border-collapse: collapse;
-  font-size: 0.84rem;
+  font-size: 0.9rem;
 }
 
 th,
 td {
-  padding: 12px 14px;
+  padding: 13px 15px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
@@ -343,7 +357,7 @@ th {
   z-index: 2;
   background: #eef3ef;
   color: #31413a;
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
 }
 
