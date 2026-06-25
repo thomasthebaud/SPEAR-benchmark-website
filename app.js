@@ -1,4 +1,3 @@
-document.documentElement.classList.add("js-enabled");
 const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
 const links = Array.from(document.querySelectorAll("[data-tab-link]"));
 const table = document.querySelector("#benchmark-table");
@@ -319,5 +318,6 @@ if (filterEl) {
 window.addEventListener("hashchange", () => activateTab(window.location.hash.slice(1)));
 
 activateTab(window.location.hash.slice(1));
+document.documentElement.classList.add("js-enabled");
 loadBenchmark();
 setupContactForm();
