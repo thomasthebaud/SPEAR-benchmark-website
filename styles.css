@@ -98,7 +98,7 @@ a {
 }
 
 main {
-  width: min(1480px, calc(100% - 32px));
+  width: min(1760px, calc(100% - 32px));
   margin: 0 auto;
   padding: 32px 0 60px;
 }
@@ -337,14 +337,14 @@ textarea {
 
 table {
   width: 100%;
-  min-width: 1980px;
+  min-width: 2240px;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.96rem;
 }
 
 th,
 td {
-  padding: 13px 15px;
+  padding: 15px 18px;
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: middle;
@@ -357,12 +357,12 @@ th {
   z-index: 2;
   background: #eef3ef;
   color: #31413a;
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
 }
 
 thead tr:nth-child(2) th {
-  top: 42px;
+  top: 48px;
 }
 
 th.group-heading {

@@ -73,11 +73,15 @@ function displayHeaders() {
   return benchmarkHeaders.filter((header) => header !== "protocol");
 }
 
+function panelIncludesTab(panel, selected) {
+  return panel.dataset.tabPanel.split(/\s+/).includes(selected);
+}
+
 function activateTab(name) {
   const validTabs = new Set(links.map((link) => link.dataset.tabLink));
   const selected = validTabs.has(name) ? name : "welcome";
   panels.forEach((panel) => {
-    panel.classList.toggle("active", panel.dataset.tabPanel === selected);
+    panel.classList.toggle("active", panelIncludesTab(panel, selected));
   });
   links.forEach((link) => {
     link.classList.toggle("active", link.dataset.tabLink === selected);
