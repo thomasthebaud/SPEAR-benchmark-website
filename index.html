@@ -78,144 +78,163 @@
         <div class="table-wrap" role="region" aria-label="SPEAR Benchmark table" tabindex="0">
           <table id="benchmark-table">
             <thead>
-              <tr>
-                <th>Protocol</th>
-                <th>Model</th>
-                <th>Avg Latency</th>
-                <th>Avg UTMOS</th>
-                <th>Avg WER %</th>
-                <th>WER Std</th>
-                <th>Interruptions / Dialogue</th>
-                <th>Dialogues Interrupted</th>
-                <th>Interrupted Time s</th>
-                <th>EN Lang %</th>
-                <th>2nd Language</th>
-                <th>2nd Lang %</th>
-                <th>Same Dialect %</th>
-                <th>NA Dialect %</th>
-                <th>Emo Naturalness</th>
-                <th>Same Stance %</th>
-                <th>More Negative %</th>
-                <th>More Positive %</th>
-                <th>Explainable Feature</th>
-                <th>Report</th>
-              </tr>
+              <tr><th>Model</th><th>UTMOS</th><th>WER %</th><th>CER %</th><th>Latency</th><th>Interr. time</th><th>Interr. %</th><th>English answers</th><th>Same dialect</th><th>NA dialect</th><th>Dialectal entrain.</th><th>Dialectal variance</th><th>Emotional naturalness</th><th>Arousal corr.</th><th>Valence corr.</th><th>Dominance corr.</th><th>Same stance</th><th>More negative</th><th>More positive</th><th>Answer duration</th><th>Voiced ratio</th><th>Pitch variation</th><th>Report</th></tr>
             </thead>
             <tbody>
               <tr class="baseline-row">
-                <td>seamless_2t_2s_questions</td>
                 <td class="model-cell">original</td>
-                <td class="numeric">742.1 ms</td>
                 <td class="numeric">2.222</td>
-                <td class="numeric">40.649</td>
-                <td class="numeric">5.449</td>
-                <td class="numeric">0.520</td>
-                <td>922/2725</td>
-                <td class="numeric">0.521</td>
-                <td class="numeric">99.272</td>
-                <td>dan</td>
-                <td class="numeric">0.221</td>
-                <td class="numeric">74.124</td>
-                <td class="numeric">76.641</td>
-                <td class="numeric">10.909</td>
-                <td class="numeric">100.000</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">-0.670</td>
+                <td class="numeric">27.1</td>
+                <td class="numeric">17.2</td>
+                <td class="numeric">742 ms</td>
+                <td class="numeric">521 ms</td>
+                <td class="numeric">33.8</td>
+                <td class="numeric">99.3</td>
+                <td class="numeric">74.1</td>
+                <td class="numeric">76.6</td>
+                <td class="numeric">0.528</td>
+                <td class="numeric">250.6</td>
+                <td class="numeric">11.096</td>
+                <td class="numeric">0.525</td>
+                <td class="numeric">0.356</td>
+                <td class="numeric">0.511</td>
+                <td class="numeric">97.1</td>
+                <td class="numeric">1.5</td>
+                <td class="numeric">1.7</td>
+                <td class="numeric">21.9</td>
+                <td class="numeric">0.494</td>
+                <td class="numeric">0.275</td>
                 <td><span class="no-report">No report</span></td>
               </tr>
               <tr>
-                <td>seamless_2t_2s_questions</td>
-                <td class="model-cell">gpt-audio-1.5</td>
-                <td class="numeric">130.9 ms</td>
+                <td class="model-cell"><a class="model-link" href="https://developers.openai.com/api/docs/models/gpt-audio-1.5" target="_blank" rel="noreferrer">gpt-audio-1.5</a></td>
                 <td class="numeric">4.362</td>
-                <td class="numeric">5.796</td>
-                <td class="numeric">0.431</td>
-                <td class="numeric">0.000</td>
-                <td>0/3036</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">100.000</td>
-                <td></td>
-                <td></td>
-                <td class="numeric">74.633</td>
-                <td class="numeric">97.379</td>
+                <td class="numeric">5.8</td>
+                <td class="numeric">1.4</td>
+                <td class="numeric">131 ms</td>
+                <td class="numeric">0 ms</td>
+                <td class="numeric">0.0</td>
+                <td class="numeric">100.0</td>
+                <td class="numeric">74.6</td>
+                <td class="numeric">97.4</td>
+                <td class="numeric">0.457</td>
+                <td class="numeric">104.2</td>
                 <td class="numeric">10.908</td>
-                <td class="numeric">95.122</td>
-                <td class="numeric">2.439</td>
-                <td class="numeric">2.962</td>
-                <td class="numeric">-1.257</td>
+                <td class="numeric">0.113</td>
+                <td class="numeric">0.288</td>
+                <td class="numeric">0.092</td>
+                <td class="numeric">98.0</td>
+                <td class="numeric">0.8</td>
+                <td class="numeric">1.2</td>
+                <td class="numeric">9.7</td>
+                <td class="numeric">0.548</td>
+                <td class="numeric">0.118</td>
                 <td><a class="report-link" href="reports/gpt-audio-1.5/detailed_report.html">Detailed report</a></td>
               </tr>
               <tr>
-                <td>seamless_2t_2s_questions</td>
-                <td class="model-cell">gpt-realtime-2</td>
-                <td class="numeric">103.9 ms</td>
+                <td class="model-cell"><a class="model-link" href="https://developers.openai.com/api/docs/models/gpt-realtime-2" target="_blank" rel="noreferrer">gpt-realtime-2</a></td>
                 <td class="numeric">4.275</td>
-                <td class="numeric">14.910</td>
-                <td class="numeric">0.573</td>
-                <td class="numeric">0.447</td>
-                <td>714/3028</td>
-                <td class="numeric">0.431</td>
-                <td class="numeric">100.000</td>
-                <td></td>
-                <td></td>
-                <td class="numeric">75.133</td>
-                <td class="numeric">98.027</td>
+                <td class="numeric">14.9</td>
+                <td class="numeric">5.8</td>
+                <td class="numeric">104 ms</td>
+                <td class="numeric">431 ms</td>
+                <td class="numeric">23.6</td>
+                <td class="numeric">100.0</td>
+                <td class="numeric">75.1</td>
+                <td class="numeric">98.0</td>
+                <td class="numeric">0.407</td>
+                <td class="numeric">90.0</td>
                 <td class="numeric">10.893</td>
-                <td class="numeric">94.889</td>
-                <td class="numeric">3.066</td>
-                <td class="numeric">2.385</td>
-                <td class="numeric">-0.622</td>
+                <td class="numeric">0.060</td>
+                <td class="numeric">0.208</td>
+                <td class="numeric">0.081</td>
+                <td class="numeric">97.5</td>
+                <td class="numeric">1.5</td>
+                <td class="numeric">0.9</td>
+                <td class="numeric">19.3</td>
+                <td class="numeric">0.508</td>
+                <td class="numeric">0.164</td>
                 <td><a class="report-link" href="reports/gpt-realtime-2/detailed_report.html">Detailed report</a></td>
               </tr>
               <tr>
-                <td>seamless_2t_2s_questions</td>
-                <td class="model-cell">Qwen2.5-Omni-7B</td>
-                <td class="numeric">277.4 ms</td>
+                <td class="model-cell"><a class="model-link" href="https://huggingface.co/gpt-omni/mini-omni" target="_blank" rel="noreferrer">mini-omni</a></td>
+                <td class="numeric">3.923</td>
+                <td class="numeric">6.7</td>
+                <td class="numeric">4.8</td>
+                <td class="numeric">115 ms</td>
+                <td class="numeric">1243 ms</td>
+                <td class="numeric">58.1</td>
+                <td class="numeric">100.0</td>
+                <td class="numeric">65.8</td>
+                <td class="numeric">84.7</td>
+                <td class="numeric">0.407</td>
+                <td class="numeric">138.5</td>
+                <td class="numeric">9.215</td>
+                <td class="numeric">-0.016</td>
+                <td class="numeric">0.197</td>
+                <td class="numeric">-0.021</td>
+                <td class="numeric">95.7</td>
+                <td class="numeric">4.2</td>
+                <td class="numeric">0.2</td>
+                <td class="numeric">11.4</td>
+                <td class="numeric">0.592</td>
+                <td class="numeric">0.128</td>
+                <td><a class="report-link" href="reports/mini-omni/detailed_report.html">Detailed report</a></td>
+              </tr>
+              <tr>
+                <td class="model-cell"><a class="model-link" href="https://huggingface.co/Qwen/Qwen2.5-Omni-7B" target="_blank" rel="noreferrer">Qwen2.5-Omni-7B</a></td>
                 <td class="numeric">4.192</td>
-                <td class="numeric">19.370</td>
-                <td class="numeric">1.772</td>
-                <td class="numeric">0.000</td>
-                <td>0/3039</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">98.899</td>
-                <td>jav</td>
-                <td class="numeric">0.356</td>
-                <td class="numeric">52.144</td>
-                <td class="numeric">65.565</td>
+                <td class="numeric">19.4</td>
+                <td class="numeric">7.5</td>
+                <td class="numeric">277 ms</td>
+                <td class="numeric">0 ms</td>
+                <td class="numeric">0.0</td>
+                <td class="numeric">98.9</td>
+                <td class="numeric">52.1</td>
+                <td class="numeric">65.6</td>
+                <td class="numeric">0.285</td>
+                <td class="numeric">84.5</td>
                 <td class="numeric">10.195</td>
-                <td class="numeric">96.567</td>
-                <td class="numeric">2.146</td>
-                <td class="numeric">1.717</td>
-                <td class="numeric">1.040</td>
+                <td class="numeric">-0.023</td>
+                <td class="numeric">-0.026</td>
+                <td class="numeric">-0.027</td>
+                <td class="numeric">97.3</td>
+                <td class="numeric">1.6</td>
+                <td class="numeric">1.3</td>
+                <td class="numeric">7.2</td>
+                <td class="numeric">0.384</td>
+                <td class="numeric">0.175</td>
                 <td><a class="report-link" href="reports/Qwen2.5-Omni-7B/detailed_report.html">Detailed report</a></td>
               </tr>
               <tr>
-                <td>seamless_2t_2s_questions</td>
-                <td class="model-cell">Qwen3-Omni-30B-A3B-Instruct</td>
-                <td class="numeric">27.2 ms</td>
+                <td class="model-cell"><a class="model-link" href="https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct" target="_blank" rel="noreferrer">Qwen3-Omni-30B-A3B-Instruct</a></td>
                 <td class="numeric">4.338</td>
-                <td class="numeric">7.923</td>
-                <td class="numeric">1.166</td>
-                <td class="numeric">0.000</td>
-                <td>0/3039</td>
-                <td class="numeric">0.000</td>
-                <td class="numeric">98.140</td>
-                <td>Chinese</td>
-                <td class="numeric">0.710</td>
-                <td class="numeric">69.504</td>
-                <td class="numeric">89.593</td>
+                <td class="numeric">7.9</td>
+                <td class="numeric">3.3</td>
+                <td class="numeric">27 ms</td>
+                <td class="numeric">0 ms</td>
+                <td class="numeric">0.0</td>
+                <td class="numeric">98.1</td>
+                <td class="numeric">69.5</td>
+                <td class="numeric">89.6</td>
+                <td class="numeric">0.477</td>
+                <td class="numeric">204.5</td>
                 <td class="numeric">10.906</td>
-                <td class="numeric">96.610</td>
-                <td class="numeric">1.695</td>
-                <td class="numeric">2.684</td>
-                <td class="numeric">-0.134</td>
+                <td class="numeric">0.075</td>
+                <td class="numeric">0.288</td>
+                <td class="numeric">0.063</td>
+                <td class="numeric">97.2</td>
+                <td class="numeric">1.1</td>
+                <td class="numeric">2.0</td>
+                <td class="numeric">8.6</td>
+                <td class="numeric">0.671</td>
+                <td class="numeric">0.219</td>
                 <td><a class="report-link" href="reports/Qwen3-Omni-30B-A3B-Instruct/detailed_report.html">Detailed report</a></td>
               </tr>
             </tbody>
           </table>
         </div>
-        <p class="note" id="table-status">5 models shown.</p>
+        <p class="note" id="table-status">6 models shown.</p>
       </section>
 
       <section class="tab-panel" id="add-model" data-tab-panel="add-model">

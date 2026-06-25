@@ -16,17 +16,23 @@
     h3 { margin-bottom:8px; }
     .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; margin:18px 0; }
     .card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px; box-shadow:0 1px 2px rgba(0,0,0,0.04); }
+    .setup-half-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; align-items:start; margin-top:16px; }
+    .setup-panel { min-width:0; overflow-x:auto; margin:0; }
+    .setup-panel-data { width:100%; }
+    .setup-panel h3 { margin-top:0; }
     .metric-table { width:100%; border-collapse:collapse; font-size:14px; background:white; }
     .metric-table th, .metric-table td { border:1px solid var(--line); padding:7px 9px; text-align:left; vertical-align:top; }
     .metric-table th { background:#eef3f8; font-weight:700; }
     .figure { width:100%; max-width:1120px; display:block; margin:14px auto 24px; border:1px solid var(--line); border-radius:6px; background:white; }
     .muted { color:var(--muted); }
+    .summary-paragraph { background:white; border:1px solid var(--line); border-radius:8px; padding:16px; white-space:pre-wrap; }
     details { margin-top:16px; }
     summary { cursor:pointer; color:var(--accent); font-weight:700; margin-bottom:12px; }
     .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
     .thumb { margin:0; background:white; border:1px solid var(--line); border-radius:6px; padding:8px; }
     .thumb img { width:100%; display:block; }
     .thumb figcaption { font-size:12px; color:var(--muted); padding-top:6px; word-break:break-word; }
+    @media (max-width: 900px) { .setup-half-grid { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -36,60 +42,241 @@
 </header>
 <main>
   <section>
-    <h2>Executive Summary</h2>
-    <p>This report combines the simplified text report, Stage 1 metric tables, and Stage 2 figures into a browsable HTML document.</p>
-    <div class="cards"><section class="card"><h3>Improvised</h3>
-<p><strong>Emotional naturalness normalized-logit diff:</strong> -1.0620 (p=0.0985)</p>
-<p><strong>Language ID:</strong> English language detected in original answers (%): 98.1771%</p></section>
-<section class="card"><h3>Naturalistic</h3>
-<p><strong>Emotional naturalness normalized-logit diff:</strong> -1.4244 (p=0.0433)</p>
-<p><strong>Language ID:</strong> English language detected in original answers (%): 97.6167%</p></section></div>
+    <h2>Summary paragraph</h2>
+    <p class="summary-paragraph">mini-omni is a strong performer on intelligibility and conversational smoothness: ASR-based CER/WER are much lower than the original speech on both improvised and naturalistic data, and latency plus interruption counts are also improved. Its main tradeoff is verbosity, since generated answers are substantially longer than the originals even when speech quality is better by UTMOS. Language behavior is very stable, with answers essentially entirely in English, and dialect behavior appears consistent across subsets, with similar entrainment and variance in improvised and naturalistic speech. On stance, the model largely preserves the original sign of the affective judgments, but it shifts slightly more positive than negative overall, indicating a mild warmening bias rather than a strong change in direction. The report mentions emotion and explainable-feature analyses, but does not provide concrete directional conclusions from those signals. Overall, mini-omni looks faithful in language and dialect, strong in intelligibility, and slightly biased toward warmer delivery while being longer and not clearly better at paralinguistic fidelity.</p>
   </section>
 
+  <section>
+    <h2>Data, Models, and Setup</h2>
+    <section class="setup-panel setup-panel-data"><h3>Data</h3><table class="metric-table"><thead><tr><th>metric</th><th>Improvised dev</th><th>Improvised test</th><th>Naturalistic dev</th><th>Naturalistic test</th><th>Total</th></tr></thead><tbody><tr><td>Unique original dialogues</td><td>270</td><td>181</td><td>480</td><td>511</td><td>1442</td></tr><tr><td>Selected dialogues</td><td>1165</td><td>994</td><td>1529</td><td>1731</td><td>5419</td></tr><tr><td>Hours of questions</td><td>4.78h</td><td>3.76h</td><td>6.76h</td><td>7.47h</td><td>22.77h</td></tr><tr><td>Hours of original answers</td><td>2.67h</td><td>2.29h</td><td>5.23h</td><td>4.36h</td><td>14.56h</td></tr><tr><td>Original total hours</td><td>7.45h</td><td>6.05h</td><td>12.00h</td><td>11.83h</td><td>37.33h</td></tr><tr><td>Hours of generated answers</td><td>3.56h</td><td>3.18h</td><td>4.86h</td><td>5.43h</td><td>17.03h</td></tr><tr><td>Mean original answer length</td><td>8.26s</td><td>8.28s</td><td>12.32s</td><td>9.07s</td><td></td></tr><tr><td>Mean generated answer length</td><td>11.04s</td><td>11.56s</td><td>11.51s</td><td>11.35s</td><td></td></tr></tbody></table></section><div class="setup-half-grid"><section class="setup-panel"><h3>Models</h3><table class="metric-table"><thead><tr><th>parameter</th><th>value</th></tr></thead><tbody><tr><td>LLM model used for inference</td><td>mini-omni</td></tr><tr><td>ASR models used</td><td>Qwen3-ASR-0.6B, whisper-large-v3</td></tr><tr><td>Language ID model</td><td>facebook/mms-lid-126</td></tr><tr><td>Dialect ID model</td><td>tiantiaf/voxlect-english-dialect-whisper-large-v3</td></tr><tr><td>LLM used for stance</td><td>gpt-audio-1.5</td></tr><tr><td>Statistical tests used for p-values</td><td>Mann-Whitney U Test</td></tr><tr><td>UTMOS model</td><td>tarepan/SpeechMOS:v1.2.0 utmos22_strong</td></tr><tr><td>VAD model</td><td>silero-vad</td></tr></tbody></table></section>
+<section class="setup-panel"><h3>Setup</h3><table class="metric-table"><thead><tr><th>parameter</th><th>value</th></tr></thead><tbody><tr><td>protocol</td><td>seamless_2t_2s_questions</td></tr><tr><td>selection_method</td><td>end_with_question</td></tr><tr><td>min_turns</td><td>2</td></tr><tr><td>min_speakers</td><td>2</td></tr><tr><td>splits</td><td>dev,test</td></tr><tr><td>subsets</td><td>improvised,naturalistic</td></tr><tr><td>data_root</td><td>data/seamless_2t_2s_questions</td></tr><tr><td>results_root</td><td>results/seamless_2t_2s_questions</td></tr></tbody></table></section></div>
+  </section>
 
   <section>
-    <h2>Basic Metrics</h2>
-    <p>Basic metrics come from script 10 and include ASR-specific CER/WER columns, UTMOS, latency, interruption segment counts, interruption overlap duration, and dialogue-level interruption counts when available. If original base metrics were not generated, the table reports model means and standard deviations.</p>
-    <p class="muted">No data available.</p>
-    <img class="figure" src="graphs/basic_metrics.png" alt="Basic metric violin plots" loading="lazy">
+    <h2>Intelligibility and Interruption Metrics</h2>
+    <table class="dataframe metric-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Metric</th>
+      <th>System</th>
+      <th>model_mean_naturalistic</th>
+      <th>original_mean_naturalistic</th>
+      <th>model_mean_improvised</th>
+      <th>original_mean_improvised</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CER</td>
+      <td>Qwen3-ASR-0.6B</td>
+      <td>4.18</td>
+      <td>19.70</td>
+      <td>5.50</td>
+      <td>16.27</td>
+    </tr>
+    <tr>
+      <td>CER</td>
+      <td>whisper-large-v3</td>
+      <td>4.55</td>
+      <td>17.13</td>
+      <td>5.55</td>
+      <td>13.99</td>
+    </tr>
+    <tr>
+      <td>WER</td>
+      <td>Qwen3-ASR-0.6B</td>
+      <td>6.35</td>
+      <td>32.24</td>
+      <td>7.32</td>
+      <td>28.28</td>
+    </tr>
+    <tr>
+      <td>WER</td>
+      <td>whisper-large-v3</td>
+      <td>6.49</td>
+      <td>25.42</td>
+      <td>7.14</td>
+      <td>20.11</td>
+    </tr>
+    <tr>
+      <td>UTMOS</td>
+      <td></td>
+      <td>3.8641</td>
+      <td>2.1655</td>
+      <td>4.0254</td>
+      <td>2.3207</td>
+    </tr>
+    <tr>
+      <td>latency</td>
+      <td></td>
+      <td>112.4927</td>
+      <td>929.6360</td>
+      <td>118.2828</td>
+      <td>415.3924</td>
+    </tr>
+    <tr>
+      <td>average number of interruptions per dialogues</td>
+      <td></td>
+      <td>0.81</td>
+      <td>0.50</td>
+      <td>0.89</td>
+      <td>0.55</td>
+    </tr>
+    <tr>
+      <td>interrupted time (s)</td>
+      <td></td>
+      <td>1.166</td>
+      <td>0.520</td>
+      <td>1.378</td>
+      <td>0.522</td>
+    </tr>
+    <tr>
+      <td>number of dialogues with interruption</td>
+      <td></td>
+      <td>975/1721</td>
+      <td>545/1731</td>
+      <td>599/990</td>
+      <td>377/994</td>
+    </tr>
+  </tbody>
+</table>
+    <img class="figure" src="graphs/basic_metrics.png" alt="Intelligibility and interruption metric histograms with KDE" loading="lazy">
     <details open><summary>Basic metric histogram gallery</summary><div class="gallery"><figure class="thumb"><img src="graphs/basic_metric_graphs/CER.png" alt="CER" loading="lazy"></figure>
 <figure class="thumb"><img src="graphs/basic_metric_graphs/UTMOS.png" alt="UTMOS" loading="lazy"></figure>
 <figure class="thumb"><img src="graphs/basic_metric_graphs/WER.png" alt="WER" loading="lazy"></figure>
-<figure class="thumb"><img src="graphs/basic_metric_graphs/interrupted.png" alt="interrupted" loading="lazy"></figure>
-<figure class="thumb"><img src="graphs/basic_metric_graphs/interruption_segments.png" alt="interruption_segments" loading="lazy"></figure>
-<figure class="thumb"><img src="graphs/basic_metric_graphs/interruptions.png" alt="interruptions" loading="lazy"></figure>
 <figure class="thumb"><img src="graphs/basic_metric_graphs/latency.png" alt="latency" loading="lazy"></figure></div></details>
   </section>
 
   <section>
-    <h2>Language ID</h2>
-    <p>Language ID reports the percentage of answer audio rows whose detected language is English (<code>eng</code>) in <code>language_id.csv</code>.</p>
+    <h2>Turn Taking Surprisal</h2>
+    <table class="dataframe metric-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>subset</th>
+      <th>metric</th>
+      <th>model_value</th>
+      <th>original_value</th>
+      <th>mean_diff</th>
+      <th>std_diff</th>
+      <th>p_value</th>
+      <th>n</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>improvised</td>
+      <td>mean_nll</td>
+      <td>2.105488173117549</td>
+      <td>3.392070671418477</td>
+      <td>-1.2866</td>
+      <td>1.6367</td>
+      <td>1.625e-51</td>
+      <td>509</td>
+    </tr>
+    <tr>
+      <td>improvised</td>
+      <td>tail_nll</td>
+      <td>2.105488173117549</td>
+      <td>3.520741825309412</td>
+      <td>-1.4153</td>
+      <td>1.7853</td>
+      <td>1.596e-51</td>
+      <td>509</td>
+    </tr>
+    <tr>
+      <td>improvised</td>
+      <td>dialog_nll</td>
+      <td>2.105488173117549</td>
+      <td>3.4564062483639444</td>
+      <td>-1.3509</td>
+      <td>1.7047</td>
+      <td>1.603e-51</td>
+      <td>509</td>
+    </tr>
+    <tr>
+      <td>improvised</td>
+      <td>naturalness_score</td>
+      <td>2.105488173117549</td>
+      <td>3.4564062483639444</td>
+      <td>-1.3509</td>
+      <td>1.7047</td>
+      <td>1.603e-51</td>
+      <td>509</td>
+    </tr>
+    <tr>
+      <td>naturalistic</td>
+      <td>mean_nll</td>
+      <td>2.08208827688539</td>
+      <td>3.9220984000715045</td>
+      <td>-1.8400</td>
+      <td>1.5511</td>
+      <td>8.329e-201</td>
+      <td>882</td>
+    </tr>
+    <tr>
+      <td>naturalistic</td>
+      <td>tail_nll</td>
+      <td>2.08208827688539</td>
+      <td>4.1670074320954695</td>
+      <td>-2.0849</td>
+      <td>1.7531</td>
+      <td>8.049e-201</td>
+      <td>882</td>
+    </tr>
+    <tr>
+      <td>naturalistic</td>
+      <td>dialog_nll</td>
+      <td>2.08208827688539</td>
+      <td>4.044552916083487</td>
+      <td>-1.9625</td>
+      <td>1.6409</td>
+      <td>8.082e-201</td>
+      <td>882</td>
+    </tr>
+    <tr>
+      <td>naturalistic</td>
+      <td>naturalness_score</td>
+      <td>2.08208827688539</td>
+      <td>4.044552916083487</td>
+      <td>-1.9625</td>
+      <td>1.6409</td>
+      <td>8.082e-201</td>
+      <td>882</td>
+    </tr>
+  </tbody>
+</table>
+    <img class="figure" src="graphs/turntaking_surprisal.png" alt="Turn-taking surprisal metric violin plots" loading="lazy">
+  </section>
+
+  <section>
+    <h2>Language and Dialect ID</h2>
     <table class="dataframe metric-table">
   <thead>
     <tr style="text-align: right;">
       <th>subset</th>
       <th>% Eng in models' answers</th>
       <th>% Eng in original answers</th>
+      <th>second most spoken language in original answers</th>
+      <th>percentage 2nd language in original answers</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>improvised</td>
-      <td>&lt;NA&gt;</td>
-      <td>98.177083</td>
+      <td>100.0</td>
+      <td>99.73545</td>
+      <td>Vietnamese</td>
+      <td>0.088183</td>
     </tr>
     <tr>
       <td>naturalistic</td>
-      <td>&lt;NA&gt;</td>
-      <td>97.616732</td>
+      <td>100.0</td>
+      <td>99.01332</td>
+      <td>dan</td>
+      <td>0.345338</td>
     </tr>
   </tbody>
 </table>
-  </section>
-
-  <section>
-    <h2>Dialect ID</h2>
-    <p>Dialect ID reports the percentage of question and answer rows assigned to each VoxLect dialect class. The confusion matrix counts question-to-answer dialect changes; the box plot compares the full question and answer score vectors for each class.</p>
     <table class="dataframe metric-table">
   <thead>
     <tr style="text-align: right;">
@@ -117,226 +304,133 @@
     <tr>
       <td>improvised</td>
       <td>Question</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
+      <td>0.404040</td>
+      <td>0.000000</td>
+      <td>0.101010</td>
+      <td>5.757576</td>
+      <td>82.020202</td>
+      <td>0.0</td>
+      <td>0.101010</td>
+      <td>0.000000</td>
+      <td>9.696970</td>
+      <td>0.101010</td>
+      <td>0.101010</td>
+      <td>0.202020</td>
+      <td>0.000000</td>
+      <td>0.505051</td>
+      <td>0.101010</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <td>improvised</td>
       <td>Answer</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
+      <td>2.854230</td>
+      <td>0.000000</td>
+      <td>0.305810</td>
+      <td>0.101937</td>
+      <td>85.626911</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>6.625892</td>
+      <td>0.000000</td>
+      <td>3.975535</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.509684</td>
+      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <td>naturalistic</td>
       <td>Question</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
+      <td>2.091807</td>
+      <td>0.522952</td>
+      <td>0.348635</td>
+      <td>4.474143</td>
+      <td>72.225450</td>
+      <td>0.0</td>
+      <td>0.232423</td>
+      <td>0.174317</td>
+      <td>16.618245</td>
+      <td>0.174317</td>
+      <td>0.348635</td>
+      <td>0.174317</td>
+      <td>0.348635</td>
+      <td>1.394538</td>
+      <td>0.348635</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <td>naturalistic</td>
       <td>Answer</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
-      <td>&lt;NA&gt;</td>
+      <td>2.920561</td>
+      <td>0.000000</td>
+      <td>0.233645</td>
+      <td>0.233645</td>
+      <td>84.228972</td>
+      <td>0.0</td>
+      <td>0.000000</td>
+      <td>0.116822</td>
+      <td>4.147196</td>
+      <td>0.000000</td>
+      <td>7.476636</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.642523</td>
+      <td>0.000000</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
-    <p class="muted">Missing graph: reports/seamless_2t_2s_questions/mini-omni/graphs/dialect_confusion.png</p>
-    <p class="muted">Missing graph: reports/seamless_2t_2s_questions/mini-omni/graphs/dialect_scores.png</p>
-  </section>
-
-  <section>
-    <h2>Emotional Naturalness</h2>
-    <p>Naturalness is summarized as the paired test-set normalized-logit difference between model and original utterances. Positive values mean higher normalized model logits than normalized original logits.</p>
+    <h3>Dialectal Metrics</h3>
     <table class="dataframe metric-table">
   <thead>
     <tr style="text-align: right;">
       <th>subset</th>
       <th>metric</th>
       <th>mean_diff</th>
-      <th>std_diff</th>
-      <th>p_value</th>
       <th>n</th>
+      <th>detail</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>improvised</td>
-      <td>Emotional naturalness</td>
-      <td>-1.0620</td>
-      <td>3.3928</td>
-      <td>0.0985</td>
-      <td>72</td>
+      <td>Dialectal entrainment</td>
+      <td>0.4225</td>
+      <td>963</td>
+      <td>computed from dialect_logits.csv question_log_logits and answer_log_logits</td>
     </tr>
     <tr>
       <td>improvised</td>
-      <td>Emotional naturalness by relationship: collaborative_storytelling</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>improvised</td>
-      <td>Emotional naturalness by relationship: grounded_gesture</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>improvised</td>
-      <td>Emotional naturalness by relationship: ipc_conversation</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>improvised</td>
-      <td>Emotional naturalness by relationship: stranger</td>
-      <td>-0.4886</td>
-      <td></td>
-      <td></td>
-      <td>84</td>
+      <td>Dialectal variance</td>
+      <td>138.8289</td>
+      <td>963</td>
+      <td>computed from dialect_logits.csv question_log_logits and answer_log_logits</td>
     </tr>
     <tr>
       <td>naturalistic</td>
-      <td>Emotional naturalness</td>
-      <td>-1.4244</td>
-      <td>3.8261</td>
-      <td>0.0433</td>
-      <td>93</td>
+      <td>Dialectal entrainment</td>
+      <td>0.4036</td>
+      <td>1669</td>
+      <td>computed from dialect_logits.csv question_log_logits and answer_log_logits</td>
     </tr>
     <tr>
       <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: collaborative_storytelling</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: coworkers</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: dating/spouse/romantic_partner</td>
-      <td>-1.5323</td>
-      <td></td>
-      <td></td>
-      <td>38</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: familiar-generic</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: family-generic</td>
-      <td>1.8972</td>
-      <td></td>
-      <td></td>
-      <td>12</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: friends</td>
-      <td>-3.1050</td>
-      <td></td>
-      <td></td>
-      <td>51</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: grounded_gesture</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: ipc_conversation</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
-    </tr>
-    <tr>
-      <td>naturalistic</td>
-      <td>Emotional naturalness by relationship: stranger</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>&lt;NA&gt;</td>
+      <td>Dialectal variance</td>
+      <td>138.2398</td>
+      <td>1669</td>
+      <td>computed from dialect_logits.csv question_log_logits and answer_log_logits</td>
     </tr>
   </tbody>
 </table>
+    <img class="figure" src="graphs/dialect_confusion.png" alt="Dialect question-to-answer confusion matrix" loading="lazy">
+    <img class="figure" src="graphs/dialect_scores.png" alt="Dialect score spider profiles for question and answer fields" loading="lazy">
+  </section>
+
+  <section>
+    <h2>Emotional Naturalness</h2>
     <img class="figure" src="graphs/emo_naturalness.png" alt="Emotional naturalness distributions" loading="lazy">
     <p>The relationship violin plot breaks naturalistic emotional naturalness logits down by relationship label.</p>
     <img class="figure" src="graphs/emo_naturalness_by_relationship.png" alt="Naturalistic emotional naturalness violins by relationship" loading="lazy">
@@ -345,22 +439,138 @@
   </section>
 
   <section>
-    <h2>STANCEs</h2>
-    <p>STANCE metrics compare LLM and original scores for each STANCE question. Naturalistic STANCEs are omitted because they are not computed in this benchmark pipeline.</p>
-    <p class="muted">No data available.</p>
-    <p class="muted">Missing graph: reports/seamless_2t_2s_questions/mini-omni/graphs/stances.png</p>
+    <h2>STANCE</h2>
+    <h3>Stance Descriptions</h3>
+    <table class="dataframe metric-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>stance</th>
+      <th>positive_original_%</th>
+      <th>negative_original_%</th>
+      <th>definition</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Q0</td>
+      <td>81.9672131147541</td>
+      <td>18.0327868852459</td>
+      <td>Based on the audio, does the TARGET speaker sound warm and affiliative, or cold and detached?</td>
+    </tr>
+    <tr>
+      <td>Q1</td>
+      <td>46.31578947368421</td>
+      <td>53.68421052631579</td>
+      <td>Based on the audio, does the TARGET speaker sound compassionate and supportive, or callous and unsympathetic?</td>
+    </tr>
+    <tr>
+      <td>Q2</td>
+      <td>31.25</td>
+      <td>68.75</td>
+      <td>Based on the audio, does the TARGET speaker sound polite and respectful, or rude and disrespectful?</td>
+    </tr>
+    <tr>
+      <td>Q3</td>
+      <td>21.0</td>
+      <td>79.0</td>
+      <td>Based on the audio, does the TARGET speaker sound assertive and self-confident, or hesitant and inhibited?</td>
+    </tr>
+    <tr>
+      <td>Q4</td>
+      <td>57.142857142857146</td>
+      <td>42.857142857142854</td>
+      <td>Based on the audio, does the TARGET speaker sound straightforward and sincere, or sly and manipulative?</td>
+    </tr>
+    <tr>
+      <td>Q5</td>
+      <td>100.0</td>
+      <td>0.0</td>
+      <td>Based on the audio, does the TARGET speaker sound attentive and focused, or confused and distracted?</td>
+    </tr>
+    <tr>
+      <td>Q6</td>
+      <td>21.666666666666668</td>
+      <td>78.33333333333333</td>
+      <td>Based on the audio, does the TARGET speaker sound organized and goal-driven, or disorganized and unmotivated?</td>
+    </tr>
+    <tr>
+      <td>Q7</td>
+      <td>68.1159420289855</td>
+      <td>31.884057971014492</td>
+      <td>Based on the audio, does the TARGET speaker sound socially engaged and expressive with the other speaker, or withdrawn and disengaged?</td>
+    </tr>
+    <tr>
+      <td>Q8</td>
+      <td>50.0</td>
+      <td>50.0</td>
+      <td>Based on the audio, does the TARGET speaker accommodate and yield to the other speaker’s preferences, or do they try to control and dominate?</td>
+    </tr>
+    <tr>
+      <td>Q9</td>
+      <td>0.0</td>
+      <td>100.0</td>
+      <td>Based on the audio, does the TARGET speaker stay calm and avoid confrontation, or are they hostile and aggressive?</td>
+    </tr>
+  </tbody>
+</table>
+    <h3>Results</h3>
+    <table class="dataframe metric-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>dataset</th>
+      <th>STANCE same sign (%)</th>
+      <th>More positive (%)</th>
+      <th>More negative (%)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>original</td>
+      <td>100.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <td>mini-omni</td>
+      <td>94.664372</td>
+      <td>1.3769363166953528</td>
+      <td>4.3029259896729775</td>
+    </tr>
+  </tbody>
+</table>
+    <img class="figure" src="graphs/stances.png" alt="STANCE score distributions" loading="lazy">
   </section>
 
   <section>
     <h2>Explainable Features</h2>
-    <p>Explainable feature rows report model-minus-original mean differences, p-values, and the Stage 41 classification AUROC/accuracy. Correlation-cluster rows come from script 41 PCA cluster features.</p>
-    <h3>Correlation Cluster Features</h3>
-    <p class="muted">No data available.</p>
-    <img class="figure" src="graphs/cluster_explainables.png" alt="Correlation cluster explainable feature violins" loading="lazy">
-    <img class="figure" src="graphs/general_explainable.png" alt="General explainable feature histogram" loading="lazy">
-    <h3>Improvised</h3><h4>Highest AUROC Features</h4><p class="muted">No data available.</p><h4>Lowest AUROC Features</h4><p class="muted">No data available.</p><h3>Naturalistic</h3><h4>Highest AUROC Features</h4><p class="muted">No data available.</p><h4>Lowest AUROC Features</h4><p class="muted">No data available.</p>
-    <p class="muted">Missing graph: reports/seamless_2t_2s_questions/mini-omni/graphs/explainables.png</p>
-    <p class="muted">No per-feature graph directory found.</p>
+    <p>Explainable feature rows report model-minus-original mean differences and p-values for numeric pitch, lexical, and temporal features.</p>
+    <h3>Pitch Based</h3>
+    <img class="figure" src="graphs/f0_question_answer_boxplot.png" alt="Questions, original answers, and model answers f0 profile box plot" loading="lazy">
+    <img class="figure" src="graphs/explainables_pitch.png" alt="Pitch-based explainable feature violin plots" loading="lazy">
+    <h3>Lexical Features</h3>
+    <img class="figure" src="graphs/explainables_lexical.png" alt="Lexical explainable feature violin plots" loading="lazy">
+    <h3>Temporal Features</h3>
+    <img class="figure" src="graphs/explainables_temporal.png" alt="Temporal explainable feature violin plots" loading="lazy">
+    <details><summary>Per-feature histogram gallery</summary><div class="gallery"><figure class="thumb"><img src="graphs/feat_graphs/f0_max_raw.png" alt="f0_max_raw" loading="lazy"><figcaption>f0_max_raw</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_mean_p10_p90.png" alt="f0_mean_p10_p90" loading="lazy"><figcaption>f0_mean_p10_p90</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_mean_p25_p75.png" alt="f0_mean_p25_p75" loading="lazy"><figcaption>f0_mean_p25_p75</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_mean_raw.png" alt="f0_mean_raw" loading="lazy"><figcaption>f0_mean_raw</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_median_raw.png" alt="f0_median_raw" loading="lazy"><figcaption>f0_median_raw</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_n_voiced_frames.png" alt="f0_n_voiced_frames" loading="lazy"><figcaption>f0_n_voiced_frames</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_p10.png" alt="f0_p10" loading="lazy"><figcaption>f0_p10</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_p25.png" alt="f0_p25" loading="lazy"><figcaption>f0_p25</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_p75.png" alt="f0_p75" loading="lazy"><figcaption>f0_p75</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_p90.png" alt="f0_p90" loading="lazy"><figcaption>f0_p90</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_range_p10_p90.png" alt="f0_range_p10_p90" loading="lazy"><figcaption>f0_range_p10_p90</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_range_p25_p75.png" alt="f0_range_p25_p75" loading="lazy"><figcaption>f0_range_p25_p75</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_range_raw.png" alt="f0_range_raw" loading="lazy"><figcaption>f0_range_raw</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_std_p10_p90.png" alt="f0_std_p10_p90" loading="lazy"><figcaption>f0_std_p10_p90</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_std_p25_p75.png" alt="f0_std_p25_p75" loading="lazy"><figcaption>f0_std_p25_p75</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_total_duration_s.png" alt="f0_total_duration_s" loading="lazy"><figcaption>f0_total_duration_s</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/f0_voiced_duration_s.png" alt="f0_voiced_duration_s" loading="lazy"><figcaption>f0_voiced_duration_s</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/total_duration_s.png" alt="total_duration_s" loading="lazy"><figcaption>total_duration_s</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/voiced_duration_s.png" alt="voiced_duration_s" loading="lazy"><figcaption>voiced_duration_s</figcaption></figure>
+<figure class="thumb"><img src="graphs/feat_graphs/voiced_ratio.png" alt="voiced_ratio" loading="lazy"><figcaption>voiced_ratio</figcaption></figure></div></details>
   </section>
 </main>
 </body>

@@ -323,9 +323,9 @@ textarea {
 
 table {
   width: 100%;
-  min-width: 1280px;
+  min-width: 1760px;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
 }
 
 th,
@@ -340,10 +340,22 @@ td {
 th {
   position: sticky;
   top: 0;
+  z-index: 2;
   background: #eef3ef;
   color: #31413a;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   text-transform: uppercase;
+}
+
+thead tr:nth-child(2) th {
+  top: 42px;
+}
+
+th.group-heading {
+  text-align: center;
+  background: #ddeae4;
+  border-right: 1px solid var(--line);
+  letter-spacing: 0;
 }
 
 td.numeric {
@@ -354,8 +366,15 @@ td.numeric {
   font-weight: 800;
 }
 
+.model-link,
 .report-link {
   font-weight: 800;
+}
+
+.model-link {
+  color: var(--ink);
+  text-decoration-color: rgba(15, 118, 110, 0.35);
+  text-underline-offset: 3px;
 }
 
 .no-report {

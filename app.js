@@ -16,27 +16,53 @@ const reportModels = new Set([
   "mini-omni"
 ]);
 
-const readableHeaders = {
-  protocol: "Protocol",
-  model: "Model",
-  avg_latency: "Avg Latency",
-  avg_UTMOS: "Avg UTMOS",
-  "avg_WER_%": "Avg WER %",
-  WER_%_std_between_asr_models: "WER Std",
-  average_number_of_interruptions_per_dialogue: "Interruptions / Dialogue",
-  number_of_dialogues_with_interruption: "Dialogues Interrupted",
-  interrupted_time_s: "Interrupted Time s",
-  EN_lang_%: "EN Lang %",
-  second_most_spoken_language: "2nd Language",
-  percentage_2nd_language: "2nd Lang %",
-  same_dialect_%: "Same Dialect %",
-  NA_dialect_%: "NA Dialect %",
-  avg_emo_naturalness_logit: "Emo Naturalness",
-  same_stance_as_question_%: "Same Stance %",
-  more_negative_stance_%: "More Negative %",
-  more_positive_stance_%: "More Positive %",
-  avg_general_expl_feat: "Explainable Feature"
+const modelLinks = {
+  "gpt-audio-1.5": "https://developers.openai.com/api/docs/models/gpt-audio-1.5",
+  "gpt-realtime-2": "https://developers.openai.com/api/docs/models/gpt-realtime-2",
+  "mini-omni": "https://huggingface.co/gpt-omni/mini-omni",
+  "Qwen2.5-Omni-7B": "https://huggingface.co/Qwen/Qwen2.5-Omni-7B",
+  "Qwen3-Omni-30B-A3B-Instruct": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct"
 };
+
+const readableHeaders = {
+  model: "Model",
+  UTMOS: "UTMOS",
+  "WER_%": "WER %",
+  "CER_%": "CER %",
+  latency_ms: "Latency",
+  interrupted_time_ms: "Interr. time",
+  "interruptions_%": "Interr. %",
+  "english_answers_%": "English answers",
+  "same_dialect_as_question_%": "Same dialect",
+  "north_american_dialect_%": "NA dialect",
+  dialectal_entrainment_spearman: "Dialectal entrain.",
+  dialectal_variance: "Dialectal variance",
+  emotional_naturalness_logit: "Emotional naturalness",
+  arousal_question_answer_corr: "Arousal corr.",
+  valence_question_answer_corr: "Valence corr.",
+  dominance_question_answer_corr: "Dominance corr.",
+  "stance_same_as_question_%": "Same stance",
+  "stance_more_negative_%": "More negative",
+  "stance_more_positive_%": "More positive",
+  explainable_duration_s: "Answer duration",
+  explainable_voiced_ratio: "Voiced ratio",
+  explainable_normalized_f0_std_avg: "Pitch variation"
+};
+
+const headerGroups = [
+  { label: "", headers: ["model"] },
+  { label: "Speech quality", headers: ["UTMOS", "WER_%", "CER_%"] },
+  { label: "Interruptions", headers: ["latency_ms", "interrupted_time_ms", "interruptions_%"] },
+  { label: "Language and Dialect", headers: ["english_answers_%", "same_dialect_as_question_%", "north_american_dialect_%", "dialectal_entrainment_spearman", "dialectal_variance"] },
+  { label: "Emotions", headers: ["emotional_naturalness_logit", "arousal_question_answer_corr", "valence_question_answer_corr", "dominance_question_answer_corr"] },
+  { label: "Stances", headers: ["stance_same_as_question_%", "stance_more_negative_%", "stance_more_positive_%"] },
+  { label: "Explainable Features", headers: ["explainable_duration_s", "explainable_voiced_ratio", "explainable_normalized_f0_std_avg"] },
+  { label: "", headers: ["report"] }
+];
+
+function displayHeaders() {
+  return benchmarkHeaders.filter((header) => header !== "protocol");
+}
 
 function activateTab(name) {
   const validTabs = new Set(links.map((link) => link.dataset.tabLink));
@@ -94,14 +120,51 @@ function formatCell(header, value) {
   if (!value) {
     return "";
   }
-  if (header === "avg_latency") {
-    return `${Number(value).toFixed(1)} ms`;
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return value;
   }
-  if (header.includes("%") || header.includes("avg_") || header.includes("_s")) {
-    const numeric = Number(value);
-    return Number.isFinite(numeric) ? numeric.toFixed(3) : value;
+  if (header === "latency_ms" || header === "interrupted_time_ms") {
+    return `${numeric.toFixed(0)} ms`;
   }
-  return value;
+  if (header === "UTMOS" || header === "emotional_naturalness_logit") {
+    return numeric.toFixed(3);
+  }
+  if (header.endsWith("%")) {
+    return numeric.toFixed(1);
+  }
+  if ([
+    "dialectal_entrainment_spearman",
+    "arousal_question_answer_corr",
+    "valence_question_answer_corr",
+    "dominance_question_answer_corr",
+    "explainable_voiced_ratio",
+    "explainable_normalized_f0_std_avg"
+  ].includes(header)) {
+    return numeric.toFixed(3);
+  }
+  if (header === "dialectal_variance" || header === "explainable_duration_s") {
+    return numeric.toFixed(1);
+  }
+  return numeric.toFixed(3);
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function modelNameCell(model) {
+  const url = modelLinks[model];
+  if (!url) {
+    return escapeHtml(model);
+  }
+  return `<a class="model-link" href="${url}" target="_blank" rel="noreferrer">${escapeHtml(model)}</a>`;
 }
 
 function modelReportCell(model) {
@@ -131,25 +194,50 @@ function renderTable(rows) {
   thead.innerHTML = "";
   tbody.innerHTML = "";
 
-  const headerRow = document.createElement("tr");
-  [...benchmarkHeaders, "report"].forEach((header) => {
-    const th = document.createElement("th");
-    th.textContent = header === "report" ? "Report" : readableHeaders[header] || header;
-    headerRow.appendChild(th);
+  const shownHeaders = displayHeaders();
+  const groupRow = document.createElement("tr");
+  const labelRow = document.createElement("tr");
+
+  headerGroups.forEach((group) => {
+    const headers = group.headers.filter((header) => header === "report" || shownHeaders.includes(header));
+    if (!headers.length) {
+      return;
+    }
+    if (headers.length === 1 && !group.label) {
+      const th = document.createElement("th");
+      th.rowSpan = 2;
+      th.textContent = headers[0] === "report" ? "Report" : readableHeaders[headers[0]] || headers[0];
+      groupRow.appendChild(th);
+      return;
+    }
+    const groupTh = document.createElement("th");
+    groupTh.className = "group-heading";
+    groupTh.colSpan = headers.length;
+    groupTh.textContent = group.label;
+    groupRow.appendChild(groupTh);
+    headers.forEach((header) => {
+      const th = document.createElement("th");
+      th.textContent = readableHeaders[header] || header;
+      labelRow.appendChild(th);
+    });
   });
-  thead.appendChild(headerRow);
+
+  thead.appendChild(groupRow);
+  thead.appendChild(labelRow);
 
   sortedRows.forEach((row) => {
     const tr = document.createElement("tr");
     if (row.model === "original") {
       tr.classList.add("baseline-row");
     }
-    benchmarkHeaders.forEach((header) => {
+    displayHeaders().forEach((header) => {
       const td = document.createElement("td");
       const value = row[header] || "";
-      td.textContent = formatCell(header, value);
       if (header === "model") {
         td.className = "model-cell";
+        td.innerHTML = modelNameCell(value);
+      } else {
+        td.textContent = formatCell(header, value);
       }
       if (!Number.isNaN(Number(value)) && value !== "") {
         td.classList.add("numeric");
