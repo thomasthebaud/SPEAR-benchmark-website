@@ -1,5 +1,6 @@
 const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
-const links = Array.from(document.querySelectorAll("[data-tab-link]"));
+const links = Array.from(document.querySelectorAll(".tabs [data-tab-link]"));
+const tabTriggers = Array.from(document.querySelectorAll("[data-tab-link]"));
 const table = document.querySelector("#benchmark-table");
 const statusEl = document.querySelector("#table-status");
 const filterEl = document.querySelector("#model-filter");
@@ -303,7 +304,7 @@ function setupContactForm() {
   });
 }
 
-links.forEach((link) => {
+tabTriggers.forEach((link) => {
   link.addEventListener("click", () => activateTab(link.dataset.tabLink));
 });
 
