@@ -13,7 +13,9 @@ const reportModels = new Set([
   "gpt-4o-audio-preview-2025-06-03",
   "gpt-audio-1.5",
   "gpt-realtime-2",
-  "mini-omni"
+  "mini-omni",
+  "gemini-2.5-flash-native-audio-preview",
+  "gemini-3.1-flash-live-preview"
 ]);
 
 const modelLinks = {
@@ -21,20 +23,27 @@ const modelLinks = {
   "gpt-realtime-2": "https://developers.openai.com/api/docs/models/gpt-realtime-2",
   "mini-omni": "https://huggingface.co/gpt-omni/mini-omni",
   "Qwen2.5-Omni-7B": "https://huggingface.co/Qwen/Qwen2.5-Omni-7B",
-  "Qwen3-Omni-30B-A3B-Instruct": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct"
+  "Qwen3-Omni-30B-A3B-Instruct": "https://huggingface.co/Qwen/Qwen3-Omni-30B-A3B-Instruct",
+  "gemini-2.5-flash-native-audio-preview": "https://ai.google.dev/gemini-api/docs/models/gemini-2.5-flash-native-audio-preview-12-2025",
+  "gemini-3.1-flash-live-preview": "https://ai.google.dev/gemini-api/docs/models/gemini-3.1-flash-live-preview"
 };
 
 const modelLabels = {
-  original: "Original",
-  "gpt-audio-1.5": "GPT-Audio-1.5",
-  "gpt-realtime-2": "GPT-Realtime-2",
-  "mini-omni": "Mini-Omni",
-  "Qwen2.5-Omni-7B": "Qwen2.5-Omni-7B",
-  "Qwen3-Omni-30B-A3B-Instruct": "Qwen3-Omni-30B-A3B-Instruct"
+  original: "Human",
+  human: "Human",
+  "gpt-audio-1.5": "GPT-audio-1.5",
+  "gpt-realtime-2": "GPT-realtime-2",
+  "mini-omni": "Mini-omni (0.5B)",
+  "Qwen2.5-Omni-7B": "Qwen2.5-Omni-7B (7B)",
+  "Qwen3-Omni-30B-A3B-Instruct": "Qwen3-Omni-30B-Instruct (30B)",
+  "gemini-2.5-flash-native-audio-preview": "Gemini-2.5-flash-native-audio",
+  "gemini-3.1-flash-live-preview": "Gemini-3.1-flash-live"
 };
 
 const readableHeaders = {
   model: "Model",
+  inference_mode: "Inference mode",
+  open_weights: "Open weights",
   UTMOS: "UTMOS",
   "WER_%": "WER %",
   "CER_%": "CER %",
@@ -46,6 +55,7 @@ const readableHeaders = {
   "north_american_dialect_%": "NA dialect",
   dialectal_entrainment_spearman: "Dialectal entrain.",
   dialectal_variance: "Dialectal variance",
+  turn_taking_naturalness: "Turn-taking naturalness",
   emotional_naturalness_logit: "Emotional naturalness",
   arousal_question_answer_corr: "Arousal corr.",
   valence_question_answer_corr: "Valence corr.",
@@ -59,10 +69,11 @@ const readableHeaders = {
 };
 
 const headerGroups = [
-  { label: "", headers: ["model"] },
+  { label: "", headers: ["model", "inference_mode", "open_weights"] },
   { label: "Speech Quality", headers: ["UTMOS", "WER_%", "CER_%"] },
   { label: "Interruptions", headers: ["latency_ms", "interrupted_time_ms", "interruptions_%"] },
   { label: "Language and Dialect", headers: ["english_answers_%", "same_dialect_as_question_%", "north_american_dialect_%", "dialectal_entrainment_spearman", "dialectal_variance"] },
+  { label: "Turn-Taking", headers: ["turn_taking_naturalness"] },
   { label: "Emotions", headers: ["emotional_naturalness_logit", "arousal_question_answer_corr", "valence_question_answer_corr", "dominance_question_answer_corr"] },
   { label: "Stances", headers: ["stance_same_as_question_%", "stance_more_negative_%", "stance_more_positive_%"] },
   { label: "Explainable Features", headers: ["explainable_duration_s", "explainable_voiced_ratio", "explainable_normalized_f0_std_avg"] },
@@ -70,7 +81,8 @@ const headerGroups = [
 ];
 
 function displayHeaders() {
-  return benchmarkHeaders.filter((header) => header !== "protocol");
+  const orderedHeaders = headerGroups.flatMap((group) => group.headers);
+  return orderedHeaders.filter((header) => header !== "report" && benchmarkHeaders.includes(header));
 }
 
 function panelIncludesTab(panel, selected) {
@@ -131,7 +143,7 @@ function parseCsv(text) {
 
 function formatCell(header, value) {
   if (!value) {
-    return "";
+    return "-";
   }
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) {
@@ -141,6 +153,9 @@ function formatCell(header, value) {
     return `${numeric.toFixed(0)} ms`;
   }
   if (header === "UTMOS" || header === "emotional_naturalness_logit") {
+    return numeric.toFixed(3);
+  }
+  if (header === "turn_taking_naturalness") {
     return numeric.toFixed(3);
   }
   if (header.endsWith("%")) {
@@ -191,10 +206,10 @@ function modelReportCell(model) {
 
 function sortBenchmarkRows(rows) {
   return [...rows].sort((left, right) => {
-    if (left.model === "original") {
+    if (left.model === "original" || left.model === "human") {
       return -1;
     }
-    if (right.model === "original") {
+    if (right.model === "original" || right.model === "human") {
       return 1;
     }
     return left.model.localeCompare(right.model);
@@ -241,7 +256,7 @@ function renderTable(rows) {
 
   sortedRows.forEach((row) => {
     const tr = document.createElement("tr");
-    if (row.model === "original") {
+    if (row.model === "original" || row.model === "human") {
       tr.classList.add("baseline-row");
     }
     displayHeaders().forEach((header) => {

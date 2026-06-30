@@ -1,0 +1,186 @@
+SPEARBench Short Report
+=======================
+
+Data
+----
+metric                        Improvised dev  Improvised test  Naturalistic dev  Naturalistic test  Total
+Unique human dialogues     270             181              480               511                1442
+Selected dialogues            1165            994              1529              1731               5419
+Hours of questions            4.78h           3.76h            6.76h             7.47h              22.77h
+Hours of human answers     2.67h           2.29h            5.23h             4.36h              14.56h
+Human total hours          7.45h           6.05h            12.00h            11.83h             37.33h
+Hours of generated answers    2.06h           1.79h            3.12h             3.21h              10.19h
+Mean human answer length   8.26s           8.28s            12.32s            9.07s
+Mean generated answer length  6.40s           6.52s            7.40s             6.72s
+
+Models
+------
+parameter                            value
+LLM model used for inference         gemini-2.5-flash-native-audio-preview
+ASR models used                      Qwen3-ASR-0.6B, whisper-large-v3
+Language ID model                    facebook/mms-lid-126
+Dialect ID model                     tiantiaf/voxlect-english-dialect-whisper-large-v3
+LLM used for stance                  gpt-audio-1.5
+Statistical tests used for p-values  Mann-Whitney U Test
+UTMOS model                          tarepan/SpeechMOS:v1.2.0 utmos22_strong
+VAD model                            silero-vad
+
+Setup
+-----
+parameter         value
+protocol          seamless_2t_2s_questions
+selection_method  end_with_question
+min_turns         2
+min_speakers      2
+splits            dev,test
+subsets           improvised,naturalistic
+data_root         data/seamless_2t_2s_questions
+results_root      results/seamless_2t_2s_questions
+
+Intelligibility and Interruption Metrics
+----------------------------------------
+subset        metric                                         model_mean  human_mean  mean_diff
+improvised    CER_Qwen3-ASR-0.6B                             77.82       16.27          61.55
+improvised    CER_whisper-large-v3                           77.74       13.99          63.75
+improvised    WER_Qwen3-ASR-0.6B                             76.30       28.28          48.03
+improvised    WER_whisper-large-v3                           75.78       20.11          55.67
+improvised    UTMOS                                          3.7837      2.3207         1.4630
+improvised    latency                                        152.2267    415.3924       -263.1656
+improvised    average number of interruptions per dialogues  0.00        0.55           -0.55
+improvised    interrupted time (s)                           0.000       0.522          -0.522
+improvised    number of dialogues with interruption          0/988       377/994        -377
+naturalistic  CER_Qwen3-ASR-0.6B                             78.39       19.70          58.69
+naturalistic  CER_whisper-large-v3                           78.33       17.13          61.20
+naturalistic  WER_Qwen3-ASR-0.6B                             76.99       32.24          44.76
+naturalistic  WER_whisper-large-v3                           76.60       25.42          51.18
+naturalistic  UTMOS                                          3.6846      2.1655         1.5191
+naturalistic  latency                                        178.4428    929.6360       -751.1933
+naturalistic  average number of interruptions per dialogues  0.00        0.50           -0.50
+naturalistic  interrupted time (s)                           0.000       0.520          -0.520
+naturalistic  number of dialogues with interruption          0/1721      545/1731       -545
+
+Turn Taking Surprisal
+----------------------
+metric             model - improvised  model - naturalistic  human - improvised  human - naturalistic
+mean_nll           4.797               4.688                 4.439                  4.525
+tail_nll           5.86                5.917                 5.286                  5.598
+dialog_nll         5.328               5.303                 4.862                  5.061
+naturalness_score  5.328               5.303                 4.862                  5.061
+
+Language and Dialect ID
+-----------------------
+subset        % Eng in models' answers  % Eng in human answers  second most spoken language in models' answers  percentage 2nd language in models' answers  second most spoken language in human answers  percentage 2nd language in human answers
+improvised    99.8966                   99.7354                    mlg                                             0.1034                                      Vietnamese                                       0.0882
+naturalistic  99.5277                   99.0133                    Japanese                                        0.1771                                      dan                                              0.3453
+
+Dialect distribution
+~~~~~~~~~~~~~~~~~~~~
+Subset        Question/Answer  East Asia  English  Germanic  Irish   North America  Northern Irish  Oceania  Other   Romance  Scottish  Semitic  Slavic  South African  Southeast Asia  South Asia  Welsh
+improvised    Question         0.4049     0.0000   0.1012    5.8704  80.7692        0.0000          0.1012   0.0000  9.4130   0.1012    0.1012   0.3036  0.0000         0.5061          0.1012      0.0000
+improvised    Answer           0.4141     0.0000   0.0000    0.1035  95.5487        0.0000          0.0000   0.3106  0.4141   0.0000    0.0000   0.0000  0.0000         3.2091          0.0000      0.0000
+naturalistic  Question         2.0337     0.4648   0.3486    4.5322  71.2377        0.0000          0.2324   0.1743  16.2115  0.1743    0.3486   0.1743  0.2905         1.3945          0.3486      0.0000
+naturalistic  Answer           0.2966     0.0593   0.0000    0.1186  96.1447        0.0000          0.1779   0.1186  0.4152   0.0000    0.0000   0.0000  0.0000         2.6097          0.0593      0.0000
+
+Dialectal logit metrics
+subset        dialectal_entrainment_spearman  dialectal_variance  n
+improvised    0.5313                          123.7753            948
+naturalistic  0.4981                          127.7142            1644
+
+Emotional Naturalness
+---------------------
+See detailed report graphs.
+
+STANCE
+------
+Stance descriptions
+question  positive_human_%  negative_human_%  definition
+Q0        81.9672              18.0328              Based on the audio, does the TARGET speaker sound warm and affiliative, or cold and detached?
+Q1        45.7447              54.2553              Based on the audio, does the TARGET speaker sound compassionate and supportive, or callous and unsympathetic?
+Q2        29.7872              70.2128              Based on the audio, does the TARGET speaker sound polite and respectful, or rude and disrespectful?
+Q3        21.0000              79.0000              Based on the audio, does the TARGET speaker sound assertive and self-confident, or hesitant and inhibited?
+Q4        57.1429              42.8571              Based on the audio, does the TARGET speaker sound straightforward and sincere, or sly and manipulative?
+Q5        100.0000             0.0000               Based on the audio, does the TARGET speaker sound attentive and focused, or confused and distracted?
+Q6        21.6667              78.3333              Based on the audio, does the TARGET speaker sound organized and goal-driven, or disorganized and unmotivated?
+Q7        68.1159              31.8841              Based on the audio, does the TARGET speaker sound socially engaged and expressive with the other speaker, or withdrawn and disengaged?
+Q8        50.0000              50.0000              Based on the audio, does the TARGET speaker accommodate and yield to the other speaker’s preferences, or do they try to control and dominate?
+Q9        0.0000               100.0000             Based on the audio, does the TARGET speaker stay calm and avoid confrontation, or are they hostile and aggressive?
+
+STANCE results
+dataset                                STANCE same sign (%)  More positive (%)  More negative (%)
+human                               100.0000              0.0000             0.0000
+gemini-2.5-flash-native-audio-preview  95.8678               2.6446             1.6529
+
+Explainable Features
+--------------------
+improvised
+rank_group  metric                           n    mean_diff  std_diff  p_value    auroc   accuracy
+reported    f0_p10                           988  -0.1879    0.2198    2.33e-125  0.4801  0.5086
+reported    f0_p25                           988  -0.0963    0.2314    6.1e-37    0.6502  0.6433
+reported    f0_p75                           988  0.1034     0.3699    2.09e-41   0.8562  0.8098
+reported    f0_p90                           988  0.1781     0.4880    7.45e-59   0.8676  0.8133
+reported    lexical_backchannel_ratio        988  -0.0424    0.1910    8.08e-17   0.5381  0.5368
+reported    lexical_content_word_count       988  -0.2128    12.3601   6.34e-10   0.4200  0.4485
+reported    lexical_density                  988  0.0637     0.2097    2.45e-32   0.6534  0.6246
+reported    lexical_discourse_marker_ratio   988  -0.0897    0.3466    1.95e-15   0.5656  0.5616
+reported    lexical_entropy                  988  0.4187     1.6460    8.48e-12   0.5886  0.5787
+reported    lexical_function_word_count      988  -3.3793    16.9503   0.392      0.4889  0.5187
+reported    lexical_hapax_ratio              988  0.1499     0.2702    1.52e-40   0.6650  0.6362
+reported    lexical_mattr_large              7    0.1819     0.0974    3.32e-05   0.9735  0.9375
+reported    lexical_mattr_ratio              7    -0.1158    0.1378    0.00682    0.8090  0.9271
+reported    lexical_mattr_small              7    0.1156     0.0765    5.92e-05   0.9583  0.9375
+reported    lexical_mtld                     7    59.4062    50.6146   4.94e-05   0.9631  0.9375
+reported    lexical_total_words              988  -3.5920    28.7524   0.000353   0.4537  0.4879
+reported    lexical_ttr                      988  0.0893     0.1580    2.52e-40   0.6646  0.6453
+reported    lexical_unique_words             988  0.1988     18.4843   2.29e-09   0.5775  0.4995
+reported    temporal_articulation_rate_wpm   939  -21.5105   77.2950   7.66e-19   0.6169  0.6119
+reported    temporal_articulation_rate_wps   939  -0.3585    1.2882    7.68e-19   0.6169  0.6119
+reported    temporal_pause_count             939  -0.1216    4.5432    7.44e-11   0.5845  0.5102
+reported    temporal_pause_mean_duration_s   939  0.0312     0.3633    0.000751   0.5443  0.6056
+reported    temporal_pause_ratio             939  0.0127     0.1556    0.00022    0.5485  0.6249
+reported    temporal_pause_total_duration_s  939  -0.3303    2.5028    6.46e-06   0.4408  0.5519
+reported    temporal_speech_active_time_s    939  -0.4298    7.1441    9.36e-06   0.4415  0.5274
+reported    temporal_speech_rate_wpm         939  -20.8518   74.1746   4.82e-14   0.5994  0.6103
+reported    temporal_speech_rate_wps         939  -0.3475    1.2362    4.88e-14   0.5994  0.6103
+reported    temporal_total_duration_s        939  -0.7601    9.3894    9.3e-06    0.4415  0.5342
+reported    total_duration_s                 988  -1.7637    10.4533   0.4        nan     nan
+reported    voiced_duration_s                988  -0.7160    5.0555    0.00597    nan     nan
+reported    voiced_ratio                     988  -0.0049    0.2181    7.95e-06   nan     nan
+naturalistic
+rank_group  metric                           n     mean_diff  std_diff  p_value    auroc   accuracy
+reported    f0_p10                           1721  -0.2342    0.2089    0          0.4987  0.4670
+reported    f0_p25                           1721  -0.1244    0.2103    2.08e-145  0.6775  0.6289
+reported    f0_p75                           1721  0.1245     0.2992    2.57e-117  0.8964  0.8595
+reported    f0_p90                           1721  0.2390     0.4345    1.08e-186  0.9076  0.8676
+reported    lexical_backchannel_ratio        1721  -0.0381    0.1973    1.34e-18   0.5280  0.5267
+reported    lexical_content_word_count       1721  -0.3173    12.5935   6.45e-20   0.4104  0.4815
+reported    lexical_density                  1721  0.0474     0.2220    7.01e-28   0.6074  0.5944
+reported    lexical_discourse_marker_ratio   1721  -0.0295    0.2859    0.00128    0.5189  0.5171
+reported    lexical_entropy                  1721  0.4763     1.7203    7.23e-27   0.6054  0.5823
+reported    lexical_function_word_count      1721  -2.9465    17.9203   3.76e-05   0.4595  0.5293
+reported    lexical_hapax_ratio              1721  0.1214     0.2538    8.53e-45   0.6296  0.6254
+reported    lexical_mattr_large              20    0.1614     0.0993    3.73e-11   0.9520  0.9231
+reported    lexical_mattr_ratio              20    -0.1011    0.1308    4e-05      0.7807  0.8974
+reported    lexical_mattr_small              20    0.1068     0.0741    4.73e-10   0.9256  0.8923
+reported    lexical_mtld                     20    40.3857    30.0247   4.03e-10   0.9273  0.9077
+reported    lexical_total_words              1721  -3.2639    30.0043   8.37e-12   0.4329  0.5084
+reported    lexical_ttr                      1721  0.0740     0.1510    4.5e-44    0.6285  0.6324
+reported    lexical_unique_words             1721  0.5644     19.1715   5.2e-22    0.4053  0.4702
+reported    temporal_articulation_rate_wpm   1549  -21.4167   79.4395   1.76e-29   0.6144  0.6314
+reported    temporal_articulation_rate_wps   1549  -0.3569    1.3240    1.75e-29   0.6144  0.6314
+reported    temporal_pause_count             1549  0.0548     4.8949    5.2e-26    0.3948  0.5322
+reported    temporal_pause_mean_duration_s   1549  0.0252     0.4031    0.000411   0.4644  0.5248
+reported    temporal_pause_ratio             1549  0.0162     0.1633    1.64e-08   0.4430  0.5229
+reported    temporal_pause_total_duration_s  1549  -0.4063    2.8030    1.46e-12   0.4286  0.5738
+reported    temporal_speech_active_time_s    1549  -0.4239    7.4754    1.44e-09   0.4386  0.5353
+reported    temporal_speech_rate_wpm         1549  -21.4206   76.1532   6.42e-20   0.5927  0.6206
+reported    temporal_speech_rate_wps         1549  -0.3570    1.2692    6.19e-20   0.5927  0.6206
+reported    temporal_total_duration_s        1549  -0.8302    9.9947    4.76e-10   0.4368  0.5451
+reported    total_duration_s                 1721  -2.3523    11.5628   0.458      nan     nan
+reported    voiced_duration_s                1721  -0.7541    5.7413    7.59e-09   nan     nan
+reported    voiced_ratio                     1721  0.0253     0.2171    0.00154    nan     nan
+
+Files
+-----
+metrics-improvised.csv    reports/seamless_2t_2s_questions/gemini-2.5-flash-native-audio-preview/metrics-improvised.csv
+metrics-naturalistic.csv  reports/seamless_2t_2s_questions/gemini-2.5-flash-native-audio-preview/metrics-naturalistic.csv
+report.txt                reports/seamless_2t_2s_questions/gemini-2.5-flash-native-audio-preview/report.txt
